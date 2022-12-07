@@ -2,7 +2,7 @@ array[3] barycentric(array[3] p1, array[3] p2, array[3] p3, array[3] p0)
 {
     array[3] a, b, c, p, rlt;
     float ab, ac, bc, m, n, d, u, v, w;
-    array[3] rlt = {0, 0, 0};
+    rlt = {0, 0, 0};
 	a = p2 - p3;
 	b = p1 - p3;
 	c = p0 - p3;
