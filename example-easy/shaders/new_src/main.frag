@@ -1,6 +1,3 @@
-in array[2] frag_pos;
-out array[4] out_color;
-
 array[3] barycentric(array[3] p1, array[3] p2, array[3] p3, array[3] p0)
 {
     array[3] a, b, c, p, rlt;
@@ -38,6 +35,9 @@ array[4] mainImage(array[2] fragCoord) {
     fragColor = {color[0], color[1], color[2], 1};
 	return fragColor;
 }
+
+in array[2] frag_pos;
+out array[4] out_color;
 
 void main() {
     array[2] fragCoord;

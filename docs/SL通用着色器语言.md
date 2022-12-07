@@ -43,64 +43,87 @@ SPIR-V正在催化用于表达并行计算和基于GPU的图形的着色器和�
 
 SPRI-V项目使得着色器世界中的各类语言可以实现相互转化、交叉编译等等，同时将着色器编译的前后端解耦，有助于构建更加灵活方便的开发环境。
 
-# 2 设计思路
+# 2 设计驱动
 
+我们希望设计一门简单、易上手的实时渲染着色器语言——。首先，该语言的语法参考类C语法，简单易学，只需有入门基础的程序员都可以轻松上手该语言。其次，通过这种简单的语言，程序员可以实现丰富多样的静态和动态图像效果。
 
-
-
-
-本项目所设计的着色器语言编译器所读入的着色器文件后缀为`.sl`。
-
-整个项目可见于仓库：xxx
+该语言相比于现有的着色器语言进行了大量的简化，降低了着色器语言的学习门槛，程序员通过简单的图形学知识实现复杂的图像效果，也可以提高学习人员对于图形学的积极性。
 
 # 3 词法设计
 
-下表为本项目词法设计模块的Token对照表。
+本章将介绍本语言的词法定义，本语言对于大小写不敏感。
 
-| token_str  | token_sym |
-| ---------- | --------- |
-| 标识符     | IDENFR    |
-| int        | INTTK     |
-| float      | FLTTK     |
-| array      | ARRTK     |
-| void       | VOIDTK    |
-| main       | MAINTK    |
-| if         | IFTK      |
-| else       | ELSETK    |
-| while      | WHILETK   |
-| return     | RETURNTK  |
-| +          | PLUS      |
-| -          | MINU      |
-| *          | MULT      |
-| /          | DIV       |
-| <          | LSS       |
-| <=         | LEQ       |
-| >          | GRE       |
-| >=         | GEQ       |
-| ==         | EQL       |
-| !=         | NEQ       |
-| =          | ASSIGN    |
-| ;          | SEMICN    |
-| ,          | COMMA     |
-| (          | LPARENT   |
-| )          | RPARENT   |
-| [          | LBRACK    |
-| ]          | RBRACK    |
-| {          | LBRACE    |
-| }          | RBRACE    |
-| 无符号整数 | INTCON    |
-| 无符号小数 | FLTCON    |
-| in         | INTK      |
-| out        | OUTTK     |
-| break      | BRKTK     |
-| &&         | ANDTK     |
-| \|\|       | ORTK      |
+## 3.1 关键字
 
+| 关键字 | 类型码   |
+| ------ | -------- |
+| void   | VOIDTK   |
+| int    | INTTK    |
+| float  | FLTTK    |
+| array  | ARRTK    |
+| main   | MAINTK   |
+| if     | IFTK     |
+| else   | ELSETK   |
+| while  | WHILETK  |
+| return | RETURNTK |
+| break  | BRKTK    |
+| in     | INTK     |
+| out    | OUTTK    |
 
+## 3.2 运算符
+
+### 3.2.1 算术运算符
+
+| 运算符 | 类型码 |
+| ------ | ------ |
+| +      | PLUS   |
+| -      | MINU   |
+| *      | MULT   |
+| /      | DIV    |
+
+### 3.2.2 关系运算符
+
+| 关系运算符 | 类型码 |
+| ---------- | ------ |
+| <          | LSS    |
+| <=         | LEQ    |
+| >          | GRE    |
+| >=         | GEQ    |
+| ==         | EQL    |
+| !=         | NEQ    |
+
+### 3.2.3 逻辑运算符
+
+| 逻辑运算符 | 类型码 |
+| ---------- | ------ |
+| &&         | ANDTK  |
+| \|\|       | ORTK   |
+
+### 3.2.4 辅助运算符
+
+| 辅助运算符 | 类型码  |
+| ---------- | ------- |
+| =          | ASSIGN  |
+| ;          | SEMICN  |
+| ,          | COMMA   |
+| (          | LPARENT |
+| )          | RPARENT |
+| [          | LBRACK  |
+| ]          | RBRACK  |
+| {          | LBRACE  |
+| }          | RBRACE  |
+
+## 3.3 标识符与常量
+
+| 标识符与常量 | 类型码 |
+| ------------ | ------ |
+| 标识符       | IDENFR |
+| 无符号整数   | INTCON |
+| 无符号小数   | FLTCON |
 
 # 4 语法设计
 
-本章介绍本项目语法设计模块的完整语法设计。
+本章介绍本语言的完整语法设计。
 
 ## 4.1 类型标识符
 
@@ -111,11 +134,11 @@ SPRI-V项目使得着色器世界中的各类语言可以实现相互转化、�
 
 <数字> ::= 0 | 1 | ... | 9
 
-<无符号整数> ::= <数字> {<数字>}
+<无符号整数> ::= <数字>{<数字>}
 
-<整数> ::= [ + | - ] <无符号整数>
+<整数> ::= [+|-]<无符号整数>
 
-<小数> ::= [ + | - ] <无符号小数>
+<小数> ::= [+|-]<无符号小数>
 
 <无符号小数> ::= <无符号整数>'.'<无符号整数>
 
@@ -125,13 +148,13 @@ SPRI-V项目使得着色器世界中的各类语言可以实现相互转化、�
 
 <关系运算符> ::= < | <= | > | >= | != | ==
 
-<标识符> ::= <字母> {<字母>|<数字>}
+<标识符> ::= <字母>{<字母>|<数字>}
 ```
 
 ## 4.2 表达式
 
 ```
-<表达式> ::= [ + | - ]<项>{<加法运算符><项>}
+<表达式> ::= [+|-]<项>{<加法运算符><项>}
 
 <项> ::= <因子>{<乘法运算符><因子>}
 
@@ -161,9 +184,9 @@ SPRI-V项目使得着色器世界中的各类语言可以实现相互转化、�
 ```
 <语句> ::= <循环语句> | <条件语句> | <赋值语句>; | <有返回值函数调用语句>; | <无返回值函数调用语句>; | <空>; | <返回语句>; | '{'<语句列>'}' | break;
 
-<条件运算符> ::= && | ||
+<逻辑运算符> ::= && | ||
 
-<条件> ::= <条件项>{<条件运算符><条件项>}
+<条件> ::= <条件项>{<逻辑运算符><条件项>}
 
 <条件项> ::= <表示式><关系运算符><表达式> | '('<条件>')'
 
@@ -185,7 +208,6 @@ SPRI-V项目使得着色器世界中的各类语言可以实现相互转化、�
 ## 4.5 函数与程序
 
 ```
-
 <声明头部> ::= <类型标识符> <标识符>
 
 <参数表> ::= <类型标识符> <标识符>{, <类型标识符> <标识符>} | <空>
@@ -203,29 +225,267 @@ SPRI-V项目使得着色器世界中的各类语言可以实现相互转化、�
 <程序> ::= [<输入输出说明>] [<变量说明>] {<有返回值函数定义>|无返回值函数定义} <主函数>
 ```
 
+# 5 语义说明
 
+## 5.1 存储域
 
-# 5 语义分析
+```
+Store = Location → (stored Storable + undefined + unused)
+```
 
+为了刻画存储快照，引入以下辅助函数：
 
+```
+empty_store : Store
+allocate    : Store → Store × Location
+deallocate  : Store × Location → Store
+update      : Store × Location × Storable → Store
+fetch       : Store × Location → Storable
+```
 
-# 6 目标代码生成
+以上辅助函数形式化的定义：
 
+```
+empty_store = λloc.unused 
+allocate sto =
+	let loc = any_unused_location (sto) in
+		(sto [loc→ undefined]，loc)
+deallocate (sto，loc) = sto [loc → unused]
+update (sto，loc，stble) = sto [loc→stored stble]
+fetch (sto，loc) =
+	let stored_value (stored stble) = stble
+		stored_value (undefined) = fail
+		stored_value (unused) = fail
+	in
+		stored_value (sto(loc))
+```
 
+## 5.2 环境域
 
-# 7 实现与测试
+```
+Environ = Identifier → (bound Bindable + unbound)
+```
 
-## 7.1 实现
+定义以下辅助函数：
 
-本项目完全使用Python实现，具有将`.sl`着色器文件编译为spri-v代码`.spvasm`文件的功能。编译器实现的内容包括xxx、xxx和xxx。
+```
+empty_environ : Environ
+bind          : Identifier × Bindable → Environ
+overlay       : Environ × Environ → Environ
+find          : Environ × Identifier → Bindable
+```
 
-下面给出一些接口：
+辅助函数的形式定义如下：
 
+```
+empty_environ      = λI. unbound
+bind(I, bdble)     = λI'. if I'=I then bound bdble else unbound
+overlay(env', env) =
+	λI. if env'(I) /= unbound then env'(I) else env(I)
+find(env, I)       =
+	let bound_value(bound bdble) = bdble
+		bound_value(unbound) = ⊥
+	in
+		bound_value(env(I))
+```
 
+## 5.3 语义域
 
-## 7.2 测试
+将该语言中的操作数定义为Value：
 
-本项目编译器的测试模块使用c++实现，并且使用了SPRI-V社区中的工具。
+```
+Value = truth_value Truth_Value + integer Integer
+Storable = Value
+Bindable = value Value + variable Location
+```
+
+执行命令的语义函数：
+
+```
+execute: Command → (Environ → Store → Store)
+```
+
+表达式求值的语义函数：
+
+```
+evalute: Expression → (Environ → Store → Value)
+```
+
+## 5.4 指称语义
+
+### 5.4.1 过程指称语义
+
+```
+execute [I := E] env sto =
+	let val = evaluate E env sto in
+	let variable loc = find(env, I) in
+	update(sto, loc, val)
+
+execute [I[E] := E'] env sto =
+	let val = evalute E env sto in
+	if val ∈ invalid then ⊥
+	else
+	let val' = evalute E' env sto in
+	let variable var = find(env, I) in
+	update(sto, component(int, var, I), val')
+辅助函数：
+component: Integer × Array_Variable → Variable
+component(int, nil) = ⊥
+component(int, var, arrvar) =
+	if int = 0 then var
+	else component(predecessor(int), arrvar)
+
+execute [C1;C2] env sto =
+	execute C2 env (execute C1 env sto)
+
+execute [if E then C1 else C2] env sto =
+	if evalute E env sto = truth_value true
+	then execute C1 env sto
+	else execute C2 env sto
+
+execute [while E do C] =
+	let execute_while env sto =
+		if evalute E env sto = truth_value true
+		then execute_while env (execute C env sto)
+		else sto
+	in
+	execute_while
+
+evalute [E1 + E2] env sto =
+	let Number num1 = evaluation E1 env sto in
+	let Number num2 = evaluation E2 env sto in
+	number(plus(num1, num2))
+
+evalute [E1 - E2] env sto =
+	let Number num1 = evaluation E1 env sto in
+	let Number num2 = evaluation E2 env sto in
+	number(minu(num1, num2))
+
+evalute [E1 * E2] env sto =
+	let Number num1 = evaluation E1 env sto in
+	let Number num2 = evaluation E2 env sto in
+	number(mult(num1, num2))
+
+evalute [E1 / E2] env sto =
+	let Number num1 = evaluation E1 env sto in
+	let Number num2 = evaluation E2 env sto in
+	number(div(num1, num2))
+
+evalute [E1 && E2] env sto =
+	if evaluate E1 env sto = truth_value true
+	then if evalute E2 env sto = truth_value true
+		then truth_value true
+		else truth_value false
+	else truth_value false
+
+evalute [E1 || E2] env sto =
+	if evaluate E1 env sto = truth_value true
+	then truth_value true
+	then if evalute E2 env sto = truth_value true
+		then truth_value true
+		else truth_value false
+
+evalute [E1 > E2] env sto =
+	let Number num1 = evaluation E1 env sto in
+	let Number num2 = evaluation E2 env sto in
+	number(gre(num1, num2))
+
+evalute [E1 < E2] env sto =
+	let Number num1 = evaluation E1 env sto in
+	let Number num2 = evaluation E2 env sto in
+	number(lss(num1, num2))
+
+evalute [E1 >= E2] env sto =
+	let Number num1 = evaluation E1 env sto in
+	let Number num2 = evaluation E2 env sto in
+	number(geq(num1, num2))
+
+evalute [E1 <= E2] env sto =
+	let Number num1 = evaluation E1 env sto in
+	let Number num2 = evaluation E2 env sto in
+	number(leq(num1, num2))
+
+evalute [E1 == E2] env sto =
+	let Number num1 = evaluation E1 env sto in
+	let Number num2 = evaluation E2 env sto in
+	number(eql(num1, num2))
+
+evalute [E1 != E2] env sto =
+	let Number num1 = evaluation E1 env sto in
+	let Number num2 = evaluation E2 env sto in
+	number(neq(num1, num2))
+辅助函数：
+plus: Number × NUmber → Number
+minu: Number × NUmber → Number
+mult: Number × NUmber → Number
+div: Number × NUmber → Number
+and: Truth_Value and Truth_Value → Truth_Value
+or: Truth_Value or Truth_Value → Truth_Value
+gre: Number × NUmber → Number
+lss: Number × NUmber → Number
+geq: Number × NUmber → Number
+leq: Number × NUmber → Number
+eql: Number × NUmber → Number
+neq: Number × NUmber → Number
+```
+
+### 5.4.2 函数指称语义
+
+```
+Function = Argument → Value
+Function = Argument → Store → Value
+
+evaluate [I(AP)] env =
+let function = find(env, I) in
+let arg = give_argument AP env in
+func arg
+
+elaborate [fun I(FP) is E] env =
+	let func arg
+		let parenv = bind_parameter FP arg in
+		evaluate E(overlay(parenv, env))
+	in
+(bind(I, function func))
+辅助函数：
+bind_parameter: Formal_Parameter → (Argument → Environ)
+give_argument: Actual_Parameter → (Environ → Argument)
+```
+
+# 6 实现与测试
+
+## 6.1 实现
+
+编译器基于Python语言实现，任务是将`.sl`着色器文件编译为SPIR-V代码`.spvasm`文件。编译器首先将源程序分解为语言的各个基本语法成分，然后生成与源代码相等价的源代码的中间代码，整体分为**词法分析**、**语法分析**、**语义分析**和**语法分析**四个阶段。
+
+编译器的主要架构参考”一遍扫描的编译程序“，如下图所示。
+
+<img src="pics\一边扫描的编译程序.png" alt="一边扫描的编译程序" style="zoom:67%;" />
+
+一遍扫描的编译程序以语法分析过程为核心，当语法分析程序需要读进一个新的单词符号，它就调用词法分析程序。词法分析程序从源程序中依次读进字符，并组合成单词符号返回给语法分析程序。当语法分析识别出某一语法成分时，它就调用语义分析和代码生成程序进行分析并生成中间程序。
+
+### 6.1.1 词法分析
+
+词法分析作为语法分析程序调用的子程序实现，其目的是将字符串形式的源程序分解为具有独立语法意义的单词符号。本项目词法分析程序的算法框图如下图所示。
+
+<img src="pics\词法分析流程图.png" alt="词法分析流程图" style="zoom:67%;" />
+
+### 6.1.2 语法分析
+
+语法分析将根据语法规则将单词进一步组合成大的语法类或语法成分，如变量声明、表达式、语句和函数等。
+
+本项目采用**自顶而下的语法分析方法**，从识别符号开始，根据文法为输入串建立一个推导序列。当某个非终结符号的规则表示其右部有多个选择时，本项目采用**超前扫描**的方法，即向前侦察各输入符号串的多个符号来确定要选择的目标。
+
+本项目实现的是**基于递归下降分析法的语法分析程序构造**，对语法的每一个非终结符都实现一个分析程序，当根据文法和当时的输入符号预测到要用某个非终结符去匹配输入串时，就调用该非终结符的分析程序。这种分析方法的优点是程序结构和层次清晰明了，易于手工实现，且时空效率较高，也可以在过程的任何地方插入有关语义加工程序。
+
+在语法分析过程中，还实现了符号表，用于记录源程序中各种标识符的特性信息。本项目采用的是**栈式符号表**，当遇到识别符声明时，就将包含有标识符属性的记录推入堆栈。当到达分程序结尾时，就将这个分程序中声明的所有标识符的记录移出堆栈。
+
+### 6.1.3 语义分析
+
+### 6.1.4 中间代码生成
+
+## 6.2 测试
+
+本项目编译器的测试模块使用C++实现，并且使用了SPRI-V社区中的工具。
 
 测试过程如下：
 
@@ -238,13 +498,22 @@ SPRI-V项目使得着色器世界中的各类语言可以实现相互转化、�
 
 Vulan的环境配置复杂，导致想要尝试本项目的开发者需要花费大量的时间配置环境。本项目将vulkan-example项目编译为`.exe`可执行程序，方便开发者直接使用测试。
 
-
-
-# 8 对比分析（可略）
-
-
-
-# 9 总结与局限性
+### 6.2.1 样例1
 
 
 
+### 6.2.2 样例2
+
+
+
+# 7 对比分析（可略）
+
+
+
+# 8 总结
+
+本项目设计了一种新的着色器语言，并通过Python语言实现了该语言的编译器，可以将源代码编译生成SPIR-V中间代码。
+
+本项目由石锦川和韩程凯共同设计和实现，两人工作量基本一致。
+
+整个项目可见于仓库：xxx

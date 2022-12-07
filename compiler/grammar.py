@@ -15,6 +15,10 @@ class Grammar(object):
         self.name2index_map = dict()
         # key-符号名; value-符号索引列表(不同分程序层次可能有相同的符号名,所以给符号指派了索引)
         self.symbol_list = []
+        # spri-v code
+        self.spriv_list = []
+        self.tmp_index = []
+        self.
         self._built_in()
 
     def _built_in(self):
@@ -146,6 +150,7 @@ class Grammar(object):
         if len(index_list) == 0:
             return "OtherTypeSym"
         return self.symbol_list[index_list[-1]].type
+
 
     def _is_var_declaration(self):
         if self.token.token_sym != "INTTK" and self.token.token_sym != "FLTTK" and self.token.token_sym != "ARRTK":
