@@ -62,45 +62,6 @@
                OpDecorate %iKeyboard DescriptorSet 0
                OpDecorate %iKeyboard Binding 8
 
-               ;生成要使用的opname
-               OpName %main "main"
-               OpName %barycentric_vf3_vf3_vf3_vf3_ "barycentric(vf3;vf3;vf3;vf3;"
-               OpName %p1 "p1"
-               OpName %p2 "p2"
-               OpName %p3 "p3"
-               OpName %p0 "p0"
-               OpName %mainImage_vf4_vf2_ "mainImage(vf4;vf2;"
-               OpName %fragColor "fragColor"
-               OpName %fragCoord "fragCoord"
-
-               OpName %a "a"
-               OpName %b "b"
-               OpName %c "c"
-               OpName %ab "ab"
-               OpName %ac "ac"
-               OpName %bc "bc"
-               OpName %m "m"
-               OpName %n "n"
-               OpName %d "d"
-               OpName %u "u"
-               OpName %v "v"
-               OpName %w "w"
-               OpName %p "p"
-               OpName %uv "uv"
-               OpName %v0 "v0"
-               OpName %v1 "v1"
-               OpName %v2 "v2"
-               OpName %color "color"
-               OpName %param "param"
-               OpName %param_0 "param"
-               OpName %param_1 "param"
-               OpName %param_2 "param"
-               OpName %uFragColor "uFragColor"
-               OpName %fragCoord_0 "fragCoord"
-               OpName %param_3 "param"
-               OpName %param_4 "param"
-               OpName %out_color "out_color"
-               OpName %frag_pos "frag_pos"
 
                
 

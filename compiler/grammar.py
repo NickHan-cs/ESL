@@ -16,16 +16,23 @@ class Grammar(object):
         # key-符号名; value-符号索引列表(不同分程序层次可能有相同的符号名,所以给符号指派了索引)
         self.symbol_list = []
         # spri-v code
-        self.spriv_list = []
-        self.tmp_index = []
-        self.
+        self.spirv_list_opnames = []
+        self.spirv_list_defines = []
+        self.spirv_list_funcs = []
+        self.tmp_index = 0
+        self.opnames = {}
+        self.defines = []
+        ###############
+        self.build_in_vars = ['gl_Position', 'gl_FragCoord', 'iResolution', 'iTime']
+        self.build_in_funcs = ['normalize', 'cross', 'sin', 'cos', 'abs', 'clamp', 'fract', 
+                            'smoothstep', 'length', 'step', 'min', 'max', 'atan', 'reflect', 'mix']
         self._built_in()
 
     def _built_in(self):
-        self._add_arr_var_symbol("gl_Position", 4)
-        self._add_arr_var_symbol("gl_FragCoord", 2)
-        self._add_arr_var_symbol("iResolution", 2)
-        self._add_flt_var_symbol("iTime")
+        self._add_arr_var_symbol("gl_Position", 4, build_in=True)
+        self._add_arr_var_symbol("gl_FragCoord", 2, build_in=True)
+        self._add_arr_var_symbol("iResolution", 2, build_in=True)
+        self._add_flt_var_symbol("iTime", build_in=True)
         self._add_built_in_func_symbol("normalize")
         self._add_built_in_func_symbol("cross")
         self._add_built_in_func_symbol("sin")
@@ -77,6 +84,17 @@ class Grammar(object):
                 return
             symbol = self.symbol_list[-1]
 
+    def _add_new_opnames(self, name):
+        if name not in self.opnames:
+            self.opnames[name] = 0
+        self.opnames[name] += 1
+    
+    def _add_spirv_opname(self, name):
+        if (self.opnames[name] <= 1):
+            self.spirv_list_opnames.append(f'OpName %{name} \"{name}\"')
+        else:
+            self.spirv_list_opnames.append(f'OpName %{name}_{self.opnames[name]-2} \"{name}\"')
+        
     def _add_new_symbol2map(self, symbol_name):
         if symbol_name not in self.name2index_map:
             # 如果在name2index_map中不存在这个符号名,那么需要先新建一个键值对
@@ -90,42 +108,62 @@ class Grammar(object):
         int_symbol = IntVarSymbol(int_name, "IntVarSym", self.subprogram_level_stack[-1])
         self.symbol_list.append(int_symbol)
         self._add_new_symbol2map(int_name)
+        self._add_new_opnames(int_name)
+        self._add_spirv_opname(int_name)
 
-    def _add_flt_var_symbol(self, flt_name):
+    def _add_flt_var_symbol(self, flt_name, build_in=False):
         flt_name = flt_name.lower()
         flt_symbol = FltVarSymbol(flt_name, "FltVarSym", self.subprogram_level_stack[-1])
         self.symbol_list.append(flt_symbol)
         self._add_new_symbol2map(flt_name)
+        if not build_in: 
+            self._add_new_opnames(flt_name)
+            self._add_spirv_opname(flt_name)
 
-    def _add_arr_var_symbol(self, arr_name, arr_dim_1, arr_dim_2=None, in_out_type=None):
+    def _add_arr_var_symbol(self, arr_name, arr_dim_1, arr_dim_2=None, in_out_type=None, build_in=False):
         arr_name = arr_name.lower()
         arr_symbol = ArrVarSymbol(arr_name, "ArrVarSym", self.subprogram_level_stack[-1], arr_dim_1, arr_dim_2, in_out_type)
         self.symbol_list.append(arr_symbol)
         self._add_new_symbol2map(arr_name)
+        if not build_in:
+            self._add_new_opnames(arr_name)
+            self._add_spirv_opname(arr_name)
 
     def _add_void_func_symbol(self, func_name):
         func_name = func_name.lower()
         func_symbol = VoidFuncSymbol(func_name, "VoidFuncSym", self.subprogram_level_stack[-1])
         self.symbol_list.append(func_symbol)
         self._add_new_symbol2map(func_name)
+        # todo: func_name needs parameters 
+        self._add_new_opnames(func_name)
+        self._add_spirv_opname(func_name)
 
     def _add_int_func_symbol(self, func_name):
         func_name = func_name.lower()
         func_symbol = IntFuncSymbol(func_name, "IntFuncSym", self.subprogram_level_stack[-1])
         self.symbol_list.append(func_symbol)
         self._add_new_symbol2map(func_name)
+        # todo: func_name needs parameters
+        self._add_new_opnames(func_name)
+        self._add_spirv_opname(func_name)
 
     def _add_flt_func_symbol(self, func_name):
         func_name = func_name.lower()
         func_symbol = FltFuncSymbol(func_name, "FltFuncSym", self.subprogram_level_stack[-1])
         self.symbol_list.append(func_symbol)
         self._add_new_symbol2map(func_name)
+        # todo: func_name needs parameters
+        self._add_new_opnames(func_name)
+        self._add_spirv_opname(func_name)
 
     def _add_arr_func_symbol(self, func_name, arr_dim_1, arr_dim_2=None):
         func_name = func_name.lower()
         func_symbol = ArrFuncSymbol(func_name, "ArrFuncSym", self.subprogram_level_stack[-1], arr_dim_1, arr_dim_2)
         self.symbol_list.append(func_symbol)
         self._add_new_symbol2map(func_name)
+        # todo: func_name needs parameters
+        self._add_new_opnames(func_name)
+        self._add_spirv_opname(func_name)
 
     def _add_built_in_func_symbol(self, func_name):
         func_name = func_name.lower()
@@ -754,3 +792,4 @@ class Grammar(object):
         self._main_func()
         print(self.token)
         self._exit_cur_level()
+        print(self.spirv_list_opnames)
