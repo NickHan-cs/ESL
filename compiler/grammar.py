@@ -56,7 +56,7 @@ class Grammar(object):
         self._add_built_in_func_symbol("mix")
     
     def _built_in_template(self):
-        with open('main.frag_template.spvasm', encoding='utf-8') as f:
+        with open('./spvasm_templates/main.frag_template.spvasm', encoding='utf-8') as f:
             self.build_in_templates = f.readlines()
         f.close()
         # with open('main.vert_template.spvasm', encoding='utf-8') as f:
@@ -1194,7 +1194,7 @@ class Grammar(object):
         asm.extend(self.spirv_list_defines)
         asm.extend(self.build_in_templates[151:])
         asm.extend(self.spirv_list_funcs)
-        with open('test.spvasm', mode='w', encoding='utf-8') as f:
+        with open('main.frag.esl.spvasm', mode='w', encoding='utf-8') as f:
             f.writelines(asm)
         f.close()
 
