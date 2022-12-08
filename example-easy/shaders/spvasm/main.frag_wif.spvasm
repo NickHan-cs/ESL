@@ -16,7 +16,23 @@
                OpSourceExtension "GL_ARB_shading_language_420pack"
                OpSourceExtension "GL_GOOGLE_cpp_style_line_directive"
                OpSourceExtension "GL_GOOGLE_include_directive"
+               ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+               ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 
+               OpName %main "main"
+               OpName %barycentric_vf3_vf3_vf3_vf3_ "barycentric(vf3;vf3;vf3;vf3;"
+               OpName %p1 "p1"
+               OpName %p2 "p2"
+               OpName %p3 "p3"
+               OpName %p0 "p0"
+               OpName %mainImage_vf4_vf2_ "mainImage(vf4;vf2;"
+               OpName %fragColor "fragColor"
+               OpName %fragCoord "fragCoord"
+
+               
+               ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+               ;;;;;;直接生成该部分
+               ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
                OpName %iResolution "iResolution"
                OpName %push_constants "push_constants"
                OpMemberName %push_constants 0 "u_Mouse"
@@ -37,41 +53,9 @@
                OpName %is_debugdraw "is_debugdraw"
                OpName %is_pause "is_pause"
                OpName %main_image_srgb "main_image_srgb"
+               ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+               ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 
-               OpName %gl_FragCoord "gl_FragCoord"
-               OpName %iTextures "iTextures"
-               OpName %iChannels "iChannels"
-               OpName %iKeyboard "iKeyboard"
-               OpMemberDecorate %push_constants 0 Offset 0
-               OpMemberDecorate %push_constants 1 Offset 16
-               OpMemberDecorate %push_constants 2 Offset 32
-               OpMemberDecorate %push_constants 3 Offset 40
-               OpMemberDecorate %push_constants 4 Offset 48
-               OpMemberDecorate %push_constants 5 Offset 52
-               OpMemberDecorate %push_constants 6 Offset 56
-               OpMemberDecorate %push_constants 7 Offset 60
-               OpMemberDecorate %push_constants 8 Offset 64
-               OpDecorate %push_constants Block
-               OpDecorate %gl_FragCoord BuiltIn FragCoord
-               OpDecorate %out_color Location 0
-               OpDecorate %frag_pos Location 0
-               OpDecorate %iTextures DescriptorSet 0
-               OpDecorate %iTextures Binding 0
-               OpDecorate %iChannels DescriptorSet 0
-               OpDecorate %iChannels Binding 4
-               OpDecorate %iKeyboard DescriptorSet 0
-               OpDecorate %iKeyboard Binding 8
-
-               ;生成要使用的opname
-               OpName %main "main"
-               OpName %barycentric_vf3_vf3_vf3_vf3_ "barycentric(vf3;vf3;vf3;vf3;"
-               OpName %p1 "p1"
-               OpName %p2 "p2"
-               OpName %p3 "p3"
-               OpName %p0 "p0"
-               OpName %mainImage_vf4_vf2_ "mainImage(vf4;vf2;"
-               OpName %fragColor "fragColor"
-               OpName %fragCoord "fragCoord"
 
                OpName %a "a"
                OpName %b "b"
@@ -101,15 +85,62 @@
                OpName %param_4 "param"
                OpName %out_color "out_color"
                OpName %frag_pos "frag_pos"
+               
+               
+               ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+               ;;;;;;直接生成该部分
+               ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+               OpName %gl_FragCoord "gl_FragCoord"
+               OpName %iTextures "iTextures"
+               OpName %iChannels "iChannels"
+               OpName %iKeyboard "iKeyboard"
+               OpMemberDecorate %push_constants 0 Offset 0
+               OpMemberDecorate %push_constants 1 Offset 16
+               OpMemberDecorate %push_constants 2 Offset 32
+               OpMemberDecorate %push_constants 3 Offset 40
+               OpMemberDecorate %push_constants 4 Offset 48
+               OpMemberDecorate %push_constants 5 Offset 52
+               OpMemberDecorate %push_constants 6 Offset 56
+               OpMemberDecorate %push_constants 7 Offset 60
+               OpMemberDecorate %push_constants 8 Offset 64
+               OpDecorate %push_constants Block
+               ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+               ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+               OpDecorate %gl_FragCoord BuiltIn FragCoord
+               OpDecorate %out_color Location 0
+               OpDecorate %frag_pos Location 0
+               ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+               ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+               OpDecorate %iTextures DescriptorSet 0
+               OpDecorate %iTextures Binding 0
+               OpDecorate %iChannels DescriptorSet 0
+               OpDecorate %iChannels Binding 4
+               OpDecorate %iKeyboard DescriptorSet 0
+               OpDecorate %iKeyboard Binding 8
+               ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+               ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+
+
+
+
+       %void = OpTypeVoid
+          %3 = OpTypeFunction %void
+      %float = OpTypeFloat 32
+    %v3float = OpTypeVector %float 3
+%_ptr_Function_v3float = OpTypePointer Function %v3float
+          %9 = OpTypeFunction %v3float %_ptr_Function_v3float %_ptr_Function_v3float %_ptr_Function_v3float %_ptr_Function_v3float
+    %v4float = OpTypeVector %float 4
+%_ptr_Function_v4float = OpTypePointer Function %v4float
+    %v2float = OpTypeVector %float 2
+%_ptr_Function_v2float = OpTypePointer Function %v2float
+         %20 = OpTypeFunction %void %_ptr_Function_v4float %_ptr_Function_v2float
+
+
 
 
          ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
          ;;;;;;直接生成该部分
          ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
-         %float = OpTypeFloat 32
-    %v3float = OpTypeVector %float 3
-    %v4float = OpTypeVector %float 4
-    %v2float = OpTypeVector %float 2
 %_ptr_Private_v3float = OpTypePointer Private %v3float
 %iResolution = OpVariable %_ptr_Private_v3float Private
        %uint = OpTypeInt 32 0
@@ -181,14 +212,6 @@
 
 
 
-
-       %void = OpTypeVoid
-          %3 = OpTypeFunction %void
-%_ptr_Function_v3float = OpTypePointer Function %v3float
-          %9 = OpTypeFunction %v3float %_ptr_Function_v3float %_ptr_Function_v3float %_ptr_Function_v3float %_ptr_Function_v3float
-%_ptr_Function_v4float = OpTypePointer Function %v4float
-%_ptr_Function_v2float = OpTypePointer Function %v2float
-         %20 = OpTypeFunction %void %_ptr_Function_v4float %_ptr_Function_v2float
 
        ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
        ;;;;;;;;;;main 函数

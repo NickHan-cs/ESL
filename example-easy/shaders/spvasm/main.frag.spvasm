@@ -1,11 +1,8 @@
 ; SPIR-V
 ; Version: 1.0
 ; Generator: Google Shaderc over Glslang; 11
-; Bound: 372
+; Bound: 335
 ; Schema: 0
-               ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
-               ;;;;;;直接生成该部分
-               ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
                OpCapability Shader
           %1 = OpExtInstImport "GLSL.std.450"
                OpMemoryModel Logical GLSL450
@@ -16,8 +13,6 @@
                OpSourceExtension "GL_ARB_shading_language_420pack"
                OpSourceExtension "GL_GOOGLE_cpp_style_line_directive"
                OpSourceExtension "GL_GOOGLE_include_directive"
-               ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
-               ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 
                OpName %main "main"
                OpName %barycentric_vf3_vf3_vf3_vf3_ "barycentric(vf3;vf3;vf3;vf3;"
@@ -28,11 +23,6 @@
                OpName %mainImage_vf4_vf2_ "mainImage(vf4;vf2;"
                OpName %fragColor "fragColor"
                OpName %fragCoord "fragCoord"
-
-               
-               ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
-               ;;;;;;直接生成该部分
-               ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
                OpName %iResolution "iResolution"
                OpName %push_constants "push_constants"
                OpMemberName %push_constants 0 "u_Mouse"
@@ -53,10 +43,6 @@
                OpName %is_debugdraw "is_debugdraw"
                OpName %is_pause "is_pause"
                OpName %main_image_srgb "main_image_srgb"
-               ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
-               ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
-
-
                OpName %a "a"
                OpName %b "b"
                OpName %c "c"
@@ -81,16 +67,11 @@
                OpName %param_2 "param"
                OpName %uFragColor "uFragColor"
                OpName %fragCoord_0 "fragCoord"
+               OpName %gl_FragCoord "gl_FragCoord"
                OpName %param_3 "param"
                OpName %param_4 "param"
                OpName %out_color "out_color"
                OpName %frag_pos "frag_pos"
-               
-               
-               ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
-               ;;;;;;直接生成该部分
-               ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
-               OpName %gl_FragCoord "gl_FragCoord"
                OpName %iTextures "iTextures"
                OpName %iChannels "iChannels"
                OpName %iKeyboard "iKeyboard"
@@ -104,25 +85,15 @@
                OpMemberDecorate %push_constants 7 Offset 60
                OpMemberDecorate %push_constants 8 Offset 64
                OpDecorate %push_constants Block
-               ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
-               ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
                OpDecorate %gl_FragCoord BuiltIn FragCoord
                OpDecorate %out_color Location 0
                OpDecorate %frag_pos Location 0
-               ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
-               ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
                OpDecorate %iTextures DescriptorSet 0
                OpDecorate %iTextures Binding 0
                OpDecorate %iChannels DescriptorSet 0
                OpDecorate %iChannels Binding 4
                OpDecorate %iKeyboard DescriptorSet 0
                OpDecorate %iKeyboard Binding 8
-               ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
-               ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
-
-
-
-
        %void = OpTypeVoid
           %3 = OpTypeFunction %void
       %float = OpTypeFloat 32
@@ -134,13 +105,6 @@
     %v2float = OpTypeVector %float 2
 %_ptr_Function_v2float = OpTypePointer Function %v2float
          %20 = OpTypeFunction %void %_ptr_Function_v4float %_ptr_Function_v2float
-
-
-
-
-         ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
-         ;;;;;;直接生成该部分
-         ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 %_ptr_Private_v3float = OpTypePointer Private %v3float
 %iResolution = OpVariable %_ptr_Private_v3float Private
        %uint = OpTypeInt 32 0
@@ -182,15 +146,13 @@
 %_ptr_Function_float = OpTypePointer Function %float
      %uint_1 = OpConstant %uint 1
      %uint_2 = OpConstant %uint 2
-    %float_0 = OpConstant %float 0
-        %277 = OpConstantComposite %v3float %float_0 %float_0 %float_0
-     %v3bool = OpTypeVector %bool 3
     %float_2 = OpConstant %float 2
    %float_n1 = OpConstant %float -1
-        %295 = OpConstantComposite %v3float %float_n1 %float_n1 %float_0
-        %297 = OpConstantComposite %v3float %float_1 %float_n1 %float_0
-        %299 = OpConstantComposite %v3float %float_0 %float_1 %float_0
-        %319 = OpConstantComposite %v4float %float_0 %float_0 %float_0 %float_0
+    %float_0 = OpConstant %float 0
+        %258 = OpConstantComposite %v3float %float_n1 %float_n1 %float_0
+        %260 = OpConstantComposite %v3float %float_1 %float_n1 %float_0
+        %262 = OpConstantComposite %v3float %float_0 %float_1 %float_0
+        %282 = OpConstantComposite %v4float %float_0 %float_0 %float_0 %float_0
 %_ptr_Input_v4float = OpTypePointer Input %v4float
 %gl_FragCoord = OpVariable %_ptr_Input_v4float Input
 %_ptr_Output_v4float = OpTypePointer Output %v4float
@@ -200,22 +162,17 @@
 %_ptr_Output_float = OpTypePointer Output %float
 %_ptr_Input_v2float = OpTypePointer Input %v2float
    %frag_pos = OpVariable %_ptr_Input_v2float Input
-        %363 = OpTypeImage %float 2D 0 0 0 1 Unknown
-        %364 = OpTypeSampledImage %363
+        %326 = OpTypeImage %float 2D 0 0 0 1 Unknown
+        %327 = OpTypeSampledImage %326
      %uint_4 = OpConstant %uint 4
-%_arr_364_uint_4 = OpTypeArray %364 %uint_4
-%_ptr_UniformConstant__arr_364_uint_4 = OpTypePointer UniformConstant %_arr_364_uint_4
-  %iTextures = OpVariable %_ptr_UniformConstant__arr_364_uint_4 UniformConstant
-  %iChannels = OpVariable %_ptr_UniformConstant__arr_364_uint_4 UniformConstant
-%_ptr_UniformConstant_364 = OpTypePointer UniformConstant %364
-  %iKeyboard = OpVariable %_ptr_UniformConstant_364 UniformConstant
-
-
-
-
-       ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
-       ;;;;;;;;;;main 函数
-       ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+%_arr_327_uint_4 = OpTypeArray %327 %uint_4
+%_ptr_UniformConstant__arr_327_uint_4 = OpTypePointer UniformConstant %_arr_327_uint_4
+  %iTextures = OpVariable %_ptr_UniformConstant__arr_327_uint_4 UniformConstant
+  %iChannels = OpVariable %_ptr_UniformConstant__arr_327_uint_4 UniformConstant
+%_ptr_UniformConstant_327 = OpTypePointer UniformConstant %327
+  %iKeyboard = OpVariable %_ptr_UniformConstant_327 UniformConstant
+       
+       
        %main = OpFunction %void None %3
           %5 = OpLabel
  %uFragColor = OpVariable %_ptr_Function_v4float Function
@@ -267,58 +224,53 @@
          %97 = OpISub %int %91 %96
          %98 = OpINotEqual %bool %97 %uint_0
                OpStore %main_image_srgb %98
-               OpStore %uFragColor %319
-        %323 = OpLoad %v4float %gl_FragCoord
-        %324 = OpVectorShuffle %v2float %323 %323 0 1
-               OpStore %fragCoord_0 %324
-        %325 = OpAccessChain %_ptr_Private_float %iResolution %uint_1
-        %326 = OpLoad %float %325
-        %327 = OpAccessChain %_ptr_Function_float %fragCoord_0 %uint_1
-        %328 = OpLoad %float %327
-        %329 = OpFSub %float %326 %328
-        %330 = OpAccessChain %_ptr_Function_float %fragCoord_0 %uint_1
-               OpStore %330 %329
-        %333 = OpLoad %v2float %fragCoord_0
-               OpStore %param_4 %333
-        %334 = OpFunctionCall %void %mainImage_vf4_vf2_ %param_3 %param_4
-        %335 = OpLoad %v4float %param_3
-               OpStore %uFragColor %335
-        %338 = OpLoad %v4float %uFragColor
-               OpStore %out_color %338
-        %339 = OpLoad %bool %main_image_srgb
-               OpSelectionMerge %341 None
-               OpBranchConditional %339 %340 %341
-        %340 = OpLabel
-        %342 = OpLoad %v4float %out_color
-        %343 = OpVectorShuffle %v3float %342 %342 0 1 2
-        %344 = OpExtInst %v3float %1 Exp2 %343
-        %345 = OpCompositeConstruct %v3float %float_1 %float_1 %float_1
-        %346 = OpFSub %v3float %344 %345
-        %347 = OpLoad %v4float %out_color
-        %348 = OpVectorShuffle %v3float %347 %347 0 1 2
-        %350 = OpVectorTimesScalar %v3float %348 %float_0_693147004
-        %351 = OpFSub %v3float %346 %350
-        %353 = OpVectorTimesScalar %v3float %351 %float_3_25889111
-        %355 = OpAccessChain %_ptr_Output_float %out_color %uint_0
-        %356 = OpCompositeExtract %float %353 0
-               OpStore %355 %356
-        %357 = OpAccessChain %_ptr_Output_float %out_color %uint_1
-        %358 = OpCompositeExtract %float %353 1
-               OpStore %357 %358
-        %359 = OpAccessChain %_ptr_Output_float %out_color %uint_2
-        %360 = OpCompositeExtract %float %353 2
-               OpStore %359 %360
-               OpBranch %341
-        %341 = OpLabel
+               OpStore %uFragColor %282
+        %286 = OpLoad %v4float %gl_FragCoord
+        %287 = OpVectorShuffle %v2float %286 %286 0 1
+               OpStore %fragCoord_0 %287
+        %288 = OpAccessChain %_ptr_Private_float %iResolution %uint_1
+        %289 = OpLoad %float %288
+        %290 = OpAccessChain %_ptr_Function_float %fragCoord_0 %uint_1
+        %291 = OpLoad %float %290
+        %292 = OpFSub %float %289 %291
+        %293 = OpAccessChain %_ptr_Function_float %fragCoord_0 %uint_1
+               OpStore %293 %292
+        %296 = OpLoad %v2float %fragCoord_0
+               OpStore %param_4 %296
+        %297 = OpFunctionCall %void %mainImage_vf4_vf2_ %param_3 %param_4
+        %298 = OpLoad %v4float %param_3
+               OpStore %uFragColor %298
+        %301 = OpLoad %v4float %uFragColor
+               OpStore %out_color %301
+        %302 = OpLoad %bool %main_image_srgb
+               OpSelectionMerge %304 None
+               OpBranchConditional %302 %303 %304
+        %303 = OpLabel
+        %305 = OpLoad %v4float %out_color
+        %306 = OpVectorShuffle %v3float %305 %305 0 1 2
+        %307 = OpExtInst %v3float %1 Exp2 %306
+        %308 = OpCompositeConstruct %v3float %float_1 %float_1 %float_1
+        %309 = OpFSub %v3float %307 %308
+        %310 = OpLoad %v4float %out_color
+        %311 = OpVectorShuffle %v3float %310 %310 0 1 2
+        %313 = OpVectorTimesScalar %v3float %311 %float_0_693147004
+        %314 = OpFSub %v3float %309 %313
+        %316 = OpVectorTimesScalar %v3float %314 %float_3_25889111
+        %318 = OpAccessChain %_ptr_Output_float %out_color %uint_0
+        %319 = OpCompositeExtract %float %316 0
+               OpStore %318 %319
+        %320 = OpAccessChain %_ptr_Output_float %out_color %uint_1
+        %321 = OpCompositeExtract %float %316 1
+               OpStore %320 %321
+        %322 = OpAccessChain %_ptr_Output_float %out_color %uint_2
+        %323 = OpCompositeExtract %float %316 2
+               OpStore %322 %323
+               OpBranch %304
+        %304 = OpLabel
                OpReturn
                OpFunctionEnd
-        ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
-        ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
-        
 
-       ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
-       ;;;;;;;;;;barycentric 函数
-       ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+               
 %barycentric_vf3_vf3_vf3_vf3_ = OpFunction %v3float None %9
          %p1 = OpFunctionParameter %_ptr_Function_v3float
          %p2 = OpFunctionParameter %_ptr_Function_v3float
@@ -478,66 +430,9 @@
         %240 = OpLoad %float %w
         %241 = OpCompositeConstruct %v3float %238 %239 %240
                OpStore %p %241
-        %242 = OpAccessChain %_ptr_Function_float %p %uint_0
-        %243 = OpLoad %float %242
-        %245 = OpFOrdGreaterThanEqual %bool %243 %float_0
-               OpSelectionMerge %247 None
-               OpBranchConditional %245 %246 %247
-        %246 = OpLabel
-        %248 = OpAccessChain %_ptr_Function_float %p %uint_0
-        %249 = OpLoad %float %248
-        %250 = OpFOrdLessThanEqual %bool %249 %float_1
-               OpBranch %247
-        %247 = OpLabel
-        %251 = OpPhi %bool %245 %15 %250 %246
-               OpSelectionMerge %253 None
-               OpBranchConditional %251 %252 %253
-        %252 = OpLabel
-        %254 = OpAccessChain %_ptr_Function_float %p %uint_1
-        %255 = OpLoad %float %254
-        %256 = OpFOrdGreaterThanEqual %bool %255 %float_0
-               OpBranch %253
-        %253 = OpLabel
-        %257 = OpPhi %bool %251 %247 %256 %252
-               OpSelectionMerge %259 None
-               OpBranchConditional %257 %258 %259
-        %258 = OpLabel
-        %260 = OpAccessChain %_ptr_Function_float %p %uint_1
-        %261 = OpLoad %float %260
-        %262 = OpFOrdLessThanEqual %bool %261 %float_1
-               OpBranch %259
-        %259 = OpLabel
-        %263 = OpPhi %bool %257 %253 %262 %258
-               OpSelectionMerge %265 None
-               OpBranchConditional %263 %264 %265
-        %264 = OpLabel
-        %266 = OpAccessChain %_ptr_Function_float %p %uint_2
-        %267 = OpLoad %float %266
-        %268 = OpFOrdGreaterThanEqual %bool %267 %float_0
-               OpBranch %265
-        %265 = OpLabel
-        %269 = OpPhi %bool %263 %259 %268 %264
-               OpSelectionMerge %271 None
-               OpBranchConditional %269 %270 %271
-        %270 = OpLabel
-        %272 = OpAccessChain %_ptr_Function_float %p %uint_2
-        %273 = OpLoad %float %272
-        %274 = OpFOrdLessThanEqual %bool %273 %float_1
-               OpBranch %271
-        %271 = OpLabel
-        %275 = OpPhi %bool %269 %265 %274 %270
-        %276 = OpLoad %v3float %p
-        %279 = OpCompositeConstruct %v3bool %275 %275 %275
-        %280 = OpSelect %v3float %279 %276 %277
-               OpReturnValue %280
+        %242 = OpLoad %v3float %p
+               OpReturnValue %242
                OpFunctionEnd
-        ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
-        ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
-
-
-       ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
-       ;;;;;;;;;;mainImage 函数
-       ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 %mainImage_vf4_vf2_ = OpFunction %void None %20
   %fragColor = OpFunctionParameter %_ptr_Function_v4float
   %fragCoord = OpFunctionParameter %_ptr_Function_v2float
@@ -551,38 +446,36 @@
     %param_0 = OpVariable %_ptr_Function_v3float Function
     %param_1 = OpVariable %_ptr_Function_v3float Function
     %param_2 = OpVariable %_ptr_Function_v3float Function
-        %285 = OpLoad %v2float %fragCoord
-        %286 = OpVectorTimesScalar %v2float %285 %float_2
-        %287 = OpLoad %v3float %iResolution
-        %288 = OpVectorShuffle %v2float %287 %287 0 1
-        %289 = OpFDiv %v2float %286 %288
-        %290 = OpCompositeConstruct %v2float %float_1 %float_1
-        %291 = OpFSub %v2float %289 %290
-        %292 = OpVectorTimesScalar %v2float %291 %float_2
-               OpStore %uv %292
-               OpStore %v0 %295
-               OpStore %v1 %297
-               OpStore %v2 %299
-        %301 = OpLoad %v2float %uv
-        %302 = OpCompositeExtract %float %301 0
-        %303 = OpCompositeExtract %float %301 1
-        %304 = OpCompositeConstruct %v3float %302 %303 %float_0
-        %306 = OpLoad %v3float %v0
-               OpStore %param %306
-        %308 = OpLoad %v3float %v1
-               OpStore %param_0 %308
-        %310 = OpLoad %v3float %v2
-               OpStore %param_1 %310
-               OpStore %param_2 %304
-        %312 = OpFunctionCall %v3float %barycentric_vf3_vf3_vf3_vf3_ %param %param_0 %param_1 %param_2
-               OpStore %color %312
-        %313 = OpLoad %v3float %color
-        %314 = OpCompositeExtract %float %313 0
-        %315 = OpCompositeExtract %float %313 1
-        %316 = OpCompositeExtract %float %313 2
-        %317 = OpCompositeConstruct %v4float %314 %315 %316 %float_1
-               OpStore %fragColor %317
+        %247 = OpLoad %v2float %fragCoord
+        %248 = OpVectorTimesScalar %v2float %247 %float_2
+        %249 = OpLoad %v3float %iResolution
+        %250 = OpVectorShuffle %v2float %249 %249 0 1
+        %251 = OpFDiv %v2float %248 %250
+        %252 = OpCompositeConstruct %v2float %float_1 %float_1
+        %253 = OpFSub %v2float %251 %252
+        %254 = OpVectorTimesScalar %v2float %253 %float_2
+               OpStore %uv %254
+               OpStore %v0 %258
+               OpStore %v1 %260
+               OpStore %v2 %262
+        %264 = OpLoad %v2float %uv
+        %265 = OpCompositeExtract %float %264 0
+        %266 = OpCompositeExtract %float %264 1
+        %267 = OpCompositeConstruct %v3float %265 %266 %float_0
+        %269 = OpLoad %v3float %v0
+               OpStore %param %269
+        %271 = OpLoad %v3float %v1
+               OpStore %param_0 %271
+        %273 = OpLoad %v3float %v2
+               OpStore %param_1 %273
+               OpStore %param_2 %267
+        %275 = OpFunctionCall %v3float %barycentric_vf3_vf3_vf3_vf3_ %param %param_0 %param_1 %param_2
+               OpStore %color %275
+        %276 = OpLoad %v3float %color
+        %277 = OpCompositeExtract %float %276 0
+        %278 = OpCompositeExtract %float %276 1
+        %279 = OpCompositeExtract %float %276 2
+        %280 = OpCompositeConstruct %v4float %277 %278 %279 %float_1
+               OpStore %fragColor %280
                OpReturn
                OpFunctionEnd
-        ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
-        ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;

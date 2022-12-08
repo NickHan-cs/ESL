@@ -1,3 +1,6 @@
+in array[2] frag_pos;
+out array[4] out_color;
+
 array[3] barycentric(array[3] p1, array[3] p2, array[3] p3, array[3] p0)
 {
     array[3] a, b, c, p, rlt;
@@ -16,28 +19,23 @@ array[3] barycentric(array[3] p1, array[3] p2, array[3] p3, array[3] p0)
 	v = (n * ac - ab * bc) / d;
 	w = 1 - u - v;
     p = {u, v, w};
-    if (p[0] >= 0 && p[0] <= 1 && p[1] >= 0 && p[1] <= 1 && p[2] >= 0 && p[2] <= 1) {
-        rlt = p;
-    }
-    return rlt;
+    return p;
 }
 
-array[4] mainImage(array[2] fragCoord) {
-    array[4] fragColor;
-    array[2] uv;
+array[4] mainImage(array[2] mi_fragCoord) {
+    array[4] mi_fragColor;
+    array[2] uv, mi_iResolution;
     array[3] color, tmp;
     array[3] v0 = {-1, -1, 0};
     array[3] v1 = {1, -1, 0};
     array[3] v2 = {0, 1, 0};
-    uv = (2 * fragCoord / iResolution - 1.0) * 2.0;
+    mi_iResolution = {iResolution[0], iResolution[1]};
+    uv = (2.0 * mi_fragCoord / mi_iResolution - 1.0) * 2.0;
     tmp = {uv[0], uv[1], 0};
 	color = barycentric(v0, v1, v2, tmp);
-    fragColor = {color[0], color[1], color[2], 1};
-	return fragColor;
+    mi_fragColor = {color[0], color[1], color[2], 1};
+	return mi_fragColor;
 }
-
-in array[2] frag_pos;
-out array[4] out_color;
 
 void main() {
     array[2] fragCoord;

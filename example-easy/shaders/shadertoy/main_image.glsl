@@ -13,7 +13,7 @@ vec3 barycentric(in vec3 p1, in vec3 p2, in vec3 p3, in vec3 p0)
 	float v = (n * ac - ab * bc) / d;
 	float w = 1.0 - u - v;
     vec3 p = vec3(u,v,w);
-    return ((p.x >= 0.0) && (p.x <= 1.0) && (p.y >= 0.0) && (p.y <= 1.0) && (p.z >= 0.0) && (p.z <= 1.0)) ? p : vec3(0.0);
+    return  p;
 }
 
 void mainImage( out vec4 fragColor, in vec2 fragCoord )

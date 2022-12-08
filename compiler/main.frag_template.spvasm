@@ -16,9 +16,9 @@
 
 
                OpName %main "main"
-               OpName %mainImage_vf4_vf2_ "mainImage(vf4;vf2;"
-               OpName %fragColor "fragColor"
-               OpName %fragCoord "fragCoord"
+               ; 函数定义与参数定义添加位置
+               ; 函数中定义的变量，调用函数需要用的param
+
 
 
                OpName %iResolution "iResolution"
@@ -41,15 +41,11 @@
                OpName %is_debugdraw "is_debugdraw"
                OpName %is_pause "is_pause"
                OpName %main_image_srgb "main_image_srgb"
-
-
                OpName %uFragColor "uFragColor"
                OpName %fragCoord_0 "fragCoord"
-
-               
                OpName %gl_FragCoord "gl_FragCoord"
-               OpName %param "param"
-               OpName %param_0 "param"
+               OpName %param_20 "param"
+               OpName %param_21 "param"
                OpName %out_color "out_color"
                OpName %frag_pos "frag_pos"
                OpName %iTextures "iTextures"
@@ -150,12 +146,16 @@
   %iChannels = OpVariable %_ptr_UniformConstant__arr_144_uint_4 UniformConstant
 %_ptr_UniformConstant_144 = OpTypePointer UniformConstant %144
   %iKeyboard = OpVariable %_ptr_UniformConstant_144 UniformConstant
+
+; defines
+
+  
        %main = OpFunction %void None %3
           %5 = OpLabel
  %uFragColor = OpVariable %_ptr_Function_v4float Function
 %fragCoord_0 = OpVariable %_ptr_Function_v2float Function
-      %param = OpVariable %_ptr_Function_v4float Function
-    %param_0 = OpVariable %_ptr_Function_v2float Function
+      %param_20 = OpVariable %_ptr_Function_v4float Function
+    %param_21 = OpVariable %_ptr_Function_v2float Function
          %27 = OpAccessChain %_ptr_PushConstant_v2float %constants %int_3
          %28 = OpLoad %v2float %27
          %30 = OpCompositeExtract %float %28 0
@@ -213,10 +213,9 @@
         %109 = OpAccessChain %_ptr_Function_float %fragCoord_0 %uint_1
                OpStore %109 %108
         %112 = OpLoad %v2float %fragCoord_0
-               OpStore %param_0 %112
-        %113 = OpFunctionCall %void %mainImage_vf4_vf2_ %param %param_0
-        %114 = OpLoad %v4float %param
-               OpStore %uFragColor %114
+               OpStore %param_21 %112
+        %113 = OpFunctionCall %v4float %mainImage_v2float_ %param_21
+               OpStore %uFragColor %113
         %117 = OpLoad %v4float %uFragColor
                OpStore %out_color %117
         %118 = OpLoad %bool %main_image_srgb
@@ -246,10 +245,12 @@
         %120 = OpLabel
                OpReturn
                OpFunctionEnd
-%mainImage_vf4_vf2_ = OpFunction %void None %11
-  %fragColor = OpFunctionParameter %_ptr_Function_v4float
-  %fragCoord = OpFunctionParameter %_ptr_Function_v2float
-         %15 = OpLabel
-               OpStore %fragColor %93
-               OpReturn
-               OpFunctionEnd
+
+; 函数翻译，从200开始
+;%mainImage_vf4_vf2_ = OpFunction %void None %11
+;  %fragColor = OpFunctionParameter %_ptr_Function_v4float
+;  %fragCoord = OpFunctionParameter %_ptr_Function_v2float
+;         %15 = OpLabel
+;               OpStore %fragColor %93
+;               OpReturn
+;               OpFunctionEnd
