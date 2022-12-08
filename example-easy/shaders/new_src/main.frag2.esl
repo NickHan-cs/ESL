@@ -1,0 +1,16 @@
+in array[2] frag_pos;
+out array[4] out_color;
+
+array[4] mainImage(array[2] mi_fragCoord) {
+    array[4] mi_fragColor;
+    mi_fragColor = {0.7, 0.5, 0.5, 1};
+	return mi_fragColor;
+}
+
+void main() {
+    array[2] fragCoord;
+    array[4] uFragColor = {0, 0, 0, 0};
+    fragCoord = {gl_FragCoord[0], gl_FragCoord[1]};
+    fragCoord[1] = iResolution[1] - fragCoord[1];
+    out_color = mainImage(fragCoord);
+}

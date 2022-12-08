@@ -45,7 +45,7 @@ bool main_image_srgb=bool((constants.pCustom/10)*10-(constants.pCustom/100)*100)
 layout (location = 0) out vec4 out_color;
 
 #include "../shadertoy/common.glsl"
-#include "../shadertoy/main_image.glsl"
+#include "../shadertoy/main_image1.glsl"
 
 void main()
 {
