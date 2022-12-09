@@ -1,7 +1,7 @@
 ; SPIR-V
 ; Version: 1.0
 ; Generator: Google Shaderc over Glslang; 11
-; Bound: 152
+; Bound: 1000
 ; Schema: 0
                OpCapability Shader
           %1 = OpExtInstImport "GLSL.std.450"
@@ -82,6 +82,7 @@
 %_ptr_Function_v2float = OpTypePointer Function %v2float
          %11 = OpTypeFunction %void %_ptr_Function_v4float %_ptr_Function_v2float
     %v3float = OpTypeVector %float 3
+%_ptr_Function_v3float = OpTypePointer Function %v3float
 %_ptr_Private_v3float = OpTypePointer Private %v3float
 %iResolution = OpVariable %_ptr_Private_v3float Private
        %uint = OpTypeInt 32 0

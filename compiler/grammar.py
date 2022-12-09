@@ -24,6 +24,7 @@ class Grammar(object):
         self.defines = []
         self.func_dict = {}
         self.id_dict = {}
+        self.func_opvariable_index = 0
         # build_in
         self.build_in_vars = {'gl_Position': 'v4float', 'gl_FragCoord': 'v4float', 'iResolution': 'v3float', 
                             'iTime': 'float', 'frag_pos': 'v2float', 'out_color': 'v4float', 
@@ -87,6 +88,10 @@ class Grammar(object):
 
     def _add_spirv_list_func(self, spirv):
         self.spirv_list_funcs.append(spirv + '\n')
+    
+    def _add_spirv_func_variable(self, spirv):
+        self.spirv_list_funcs.insert(self.func_opvariable_index, spirv)
+        self.func_opvariable_index += 1
 
     def _get_token(self):
         if len(self.token_stack) > 0:
@@ -372,7 +377,7 @@ class Grammar(object):
                 self._add_arr_var_symbol(arr_name, arr_dim_1, arr_dim_2)
                 self._add_new_opnames(arr_name)
                 opname = self._add_spirv_opname(arr_name)
-                self._add_spirv_list_func(f'{opname} = OpVariable %_ptr_Function_v{arr_dim_1}float Function')
+                self._add_spirv_func_variable(f'{opname} = OpVariable %_ptr_Function_v{arr_dim_1}float Function')
                 self._add_id_dict(arr_name, opname, f'v{arr_dim_1}float')
                 for _ in range(arr_dim_1 - 1):
                     self.tokne = self._get_token()  # ,
@@ -403,7 +408,7 @@ class Grammar(object):
                 self._add_arr_var_symbol(arr_name, arr_dim_1, arr_dim_2)
                 self._add_new_opnames(arr_name)
                 opname = self._add_spirv_opname(arr_name)
-                self._add_spirv_list_func(f'{opname} = OpVariable %_ptr_Function_mat{arr_dim_1}v{arr_dim_2}float Function')
+                self._add_spirv_func_variable(f'{opname} = OpVariable %_ptr_Function_mat{arr_dim_1}v{arr_dim_2}float Function')
                 self._add_id_dict(arr_name, opname, 'mat{arr_dim_1}v{arr_dim_2}float')
                 self.token = self._get_token()  # =
                 self.token = self._get_token()  # {
@@ -481,7 +486,7 @@ class Grammar(object):
             self._add_int_var_symbol(symbol_name)
             self._add_new_opnames(symbol_name)
             opname = self._add_spirv_opname(symbol_name)
-            self._add_spirv_list_func(f'{opname} = OpVariable %_ptr_Function_int Function')
+            self._add_spirv_func_variable(f'{opname} = OpVariable %_ptr_Function_int Function')
             self._add_id_dict(symbol_name, opname, 'int')
             self.token = self._get_token()  # =
             self.token = self._get_token()
@@ -501,7 +506,7 @@ class Grammar(object):
             self._add_flt_var_symbol(symbol_name)
             self._add_new_opnames(symbol_name)
             opname = self._add_spirv_opname(symbol_name)
-            self._add_spirv_list_func(f'{opname} = OpVariable %_ptr_Function_float Function')
+            self._add_spirv_func_variable(f'{opname} = OpVariable %_ptr_Function_float Function')
             self._add_id_dict(symbol_name, opname, 'float')
             self.token = self._get_token()  # =
             self.token = self._get_token()
@@ -531,7 +536,7 @@ class Grammar(object):
                 self._add_arr_var_symbol(arr_name, arr_dim_1)
                 self._add_new_opnames(arr_name)
                 opname = self._add_spirv_opname(arr_name)
-                self._add_spirv_list_func(f'{opname} = OpVariable %_ptr_Function_v{arr_dim_1}float Function')
+                self._add_spirv_func_variable(f'{opname} = OpVariable %_ptr_Function_v{arr_dim_1}float Function')
                 self._add_id_dict(arr_name, opname, f'v{arr_dim_1}float')
                 self.token = self._get_token()  # , or ;
                 while self.token.token_sym == "COMMA":
@@ -540,7 +545,7 @@ class Grammar(object):
                     self._add_arr_var_symbol(arr_name, arr_dim_1)
                     self._add_new_opnames(arr_name)
                     opname = self._add_spirv_opname(arr_name)
-                    self._add_spirv_list_func(f'{opname} = OpVariable %_ptr_Function_v{arr_dim_1}float Function')
+                    self._add_spirv_func_variable(f'{opname} = OpVariable %_ptr_Function_v{arr_dim_1}float Function')
                     self._add_id_dict(arr_name, opname, f'v{arr_dim_1}float')
                     self.token = self._get_token()  # , or ;
             else:
@@ -553,7 +558,7 @@ class Grammar(object):
                 self._add_arr_var_symbol(arr_name, arr_dim_1, arr_dim_2)
                 self._add_new_opnames(arr_name)
                 opname = self._add_spirv_opname(arr_name)
-                self._add_spirv_list_func(f'{opname} = OpVariable %_ptr_Function_mat{arr_dim_1}v{arr_dim_2}float Function')
+                self._add_spirv_func_variable(f'{opname} = OpVariable %_ptr_Function_mat{arr_dim_1}v{arr_dim_2}float Function')
                 self._add_id_dict(arr_name, opname, 'mat{arr_dim_1}v{arr_dim_2}float')
                 self.token = self._get_token()  # , or ;
                 while self.token.token_sym == "COMMA":
@@ -562,7 +567,7 @@ class Grammar(object):
                     self._add_arr_var_symbol(arr_name, arr_dim_1, arr_dim_2)
                     self._add_new_opnames(arr_name)
                     opname = self._add_spirv_opname(arr_name)
-                    self._add_spirv_list_func(f'{opname} = OpVariable %_ptr_Function_mat{arr_dim_1}v{arr_dim_2}float Function')
+                    self._add_spirv_func_variable(f'{opname} = OpVariable %_ptr_Function_mat{arr_dim_1}v{arr_dim_2}float Function')
                     self._add_id_dict(arr_name, opname, 'mat{arr_dim_1}v{arr_dim_2}float')
                     self.token = self._get_token()  # , or ;
         elif symbol_type_sym == "INTTK":
@@ -572,7 +577,7 @@ class Grammar(object):
             self._add_int_var_symbol(symbol_name)
             self._add_new_opnames(symbol_name)
             opname = self._add_spirv_opname(symbol_name)
-            self._add_spirv_list_func(f'{opname} = OpVariable %_ptr_Function_int Function')
+            self._add_spirv_func_variable(f'{opname} = OpVariable %_ptr_Function_int Function')
             self._add_id_dict(symbol_name, opname, 'int')
             self.token = self._get_token()  # , or ;
             while self.token.token_sym == "COMMA":
@@ -581,7 +586,7 @@ class Grammar(object):
                 self._add_int_var_symbol(symbol_name)
                 self._add_new_opnames(symbol_name)
                 opname = self._add_spirv_opname(symbol_name)
-                self._add_spirv_list_func(f'{opname} = OpVariable %_ptr_Function_int Function')
+                self._add_spirv_func_variable(f'{opname} = OpVariable %_ptr_Function_int Function')
                 self._add_id_dict(symbol_name, opname, 'int')
                 self.token = self._get_token()  # , or ;
         else:
@@ -591,7 +596,7 @@ class Grammar(object):
             self._add_flt_var_symbol(symbol_name)
             self._add_new_opnames(symbol_name)
             opname = self._add_spirv_opname(symbol_name)
-            self._add_spirv_list_func(f'{opname} = OpVariable %_ptr_Function_float Function')
+            self._add_spirv_func_variable(f'{opname} = OpVariable %_ptr_Function_float Function')
             self._add_id_dict(symbol_name, opname, 'float')
             self.token = self._get_token()  # , or ;
             while self.token.token_sym == "COMMA":
@@ -600,7 +605,7 @@ class Grammar(object):
                 self._add_flt_var_symbol(symbol_name)
                 self._add_new_opnames(symbol_name)
                 opname = self._add_spirv_opname(symbol_name)
-                self._add_spirv_list_func(f'{opname} = OpVariable %_ptr_Function_float Function')
+                self._add_spirv_func_variable(f'{opname} = OpVariable %_ptr_Function_float Function')
                 self._add_id_dict(symbol_name, opname, 'float')
                 self.token = self._get_token()  # , or ;       
 
@@ -740,6 +745,7 @@ class Grammar(object):
         for key in para_tlb.keys():
             self._add_spirv_list_func(f'%{key} = OpFunctionParameter %_ptr_Function_{para_tlb[key]}')
         self._add_spirv_list_func(f'{self._get_temp()} = OpLabel')
+        self.func_opvariable_index = len(self.spirv_list_funcs)
         self.token = self._get_token()  # {
         self.token = self._get_token()
         self._compound_statements()  # }
@@ -809,6 +815,7 @@ class Grammar(object):
         for key in para_tlb.keys():
             self._add_spirv_list_func(f'%{key} = OpFunctionParameter %_ptr_Function_{para_tlb[key]}')
         self._add_spirv_list_func(f'{self._get_temp()} = OpLabel')
+        self.func_opvariable_index = len(self.spirv_list_funcs)
         self.token = self._get_token()  # {
         self.token = self._get_token()
         self._compound_statements()  # }
@@ -1143,7 +1150,10 @@ class Grammar(object):
                 tmp_type = f'%{self._get_id_info(symbol_name)[1]}'
                 self._add_spirv_list_func(f'{tmp} = OpLoad %{self._get_id_info(symbol_name)[1]} {self._get_id_info(symbol_name)[0]}')
             elif dim1 and not dim2:
-                self._add_spirv_list_func(f'{tmp} = OpAccessChain %_ptr_Function_float %{symbol_name} {dim1}')
+                if symbol_name in self.build_in_vars:
+                    self._add_spirv_list_func(f'{tmp} = OpAccessChain %_ptr_Private_float %{symbol_name} {dim1}')
+                else:
+                    self._add_spirv_list_func(f'{tmp} = OpAccessChain %_ptr_Function_float %{symbol_name} {dim1}')
                 tmp0 = tmp
                 tmp = self._get_temp()
                 self._add_spirv_list_func(f'{tmp} = OpLoad %float {tmp0}')
@@ -1208,11 +1218,11 @@ class Grammar(object):
                 self._func_def_no_ret()
             else:
                 self._func_def_with_ret()
-        print(self.func_dict)
         # self._main_func()
-        print(self.token)
         self._exit_cur_level()
-        print(self.spirv_list_opnames)
-        print(self.spirv_list_funcs)
-        print(self.spirv_list_defines)
+        print(self.token, self.token.token_sym, self.token.token_str, self.token.line)
+        # print(self.func_dict)
+        # print(self.spirv_list_opnames)
+        # print(self.spirv_list_funcs)
+        # print(self.spirv_list_defines)
         self.to_spvasm('')

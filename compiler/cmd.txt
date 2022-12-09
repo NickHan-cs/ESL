@@ -1,6 +1,6 @@
-
-example-easy\TOOLS\spirv-as.exe "example-easy\shaders\spvasm\main.frag copy.spvasm" -o example-easy\shaders\spv\main.frag.spv
-example-easy\TOOLS\glslc.exe -S example-easy\shaders\src\main.frag -o example-easy\shaders\spvasm\main.frag.spvasm
-example-easy\TOOLS\spirv-val.exe example-easy\shaders\spv\main.frag.spv
-example-easy\TOOLS\glslc.exe example-easy\shaders\src\main.frag -o example-easy\shaders\spv\main.frag.spv
-..\example-easy\TOOLS\spirv-as.exe "test.spvasm" -o ..\example-easy\shaders\spv\main.frag.spv
+使用本编译器编译运行测试
+cd compiler
+python main.py --file ../example-easy/shaders/new_src/main.frag0.esl
+..\example-easy\TOOLS\spirv-as.exe .\main.frag.esl.spvasm -o ..\example-easy\shaders\spv\main.frag.spv
+..\example-easy\TOOLS\spirv-val.exe ..\example-easy\shaders\spv\main.frag.spv
+..\example-easy\VKexample_mingw.exe
