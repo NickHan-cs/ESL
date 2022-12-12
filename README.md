@@ -42,3 +42,10 @@ win下图形界面双击运行根目录下 \example-easy\VKexample_mingw.exe 即
 
 <img src="/docs/pics/example1.png" alt="词法分析流程图" style="zoom:67%;" />
 
+#### 样例3
+
+```
+将运行说明中的*.esl替换为main.frag1.esl，可得到以下效果
+```
+
+<img src="/docs/pics/example2.png" alt="词法分析流程图" style="zoom:67%;" />
