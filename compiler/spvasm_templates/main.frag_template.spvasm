@@ -3,255 +3,241 @@
 ; Generator: Google Shaderc over Glslang; 11
 ; Bound: 1000
 ; Schema: 0
-               OpCapability Shader
-          %1 = OpExtInstImport "GLSL.std.450"
-               OpMemoryModel Logical GLSL450
-               OpEntryPoint Fragment %main "main" %gl_FragCoord %out_color %frag_pos
-               OpExecutionMode %main OriginUpperLeft
-               OpSource GLSL 450
-               OpSourceExtension "GL_ARB_separate_shader_objects"
-               OpSourceExtension "GL_ARB_shading_language_420pack"
-               OpSourceExtension "GL_GOOGLE_cpp_style_line_directive"
-               OpSourceExtension "GL_GOOGLE_include_directive"
-
-
-               OpName %main "main"
-               ; 函数定义与参数定义添加位置
-               ; 函数中定义的变量，调用函数需要用的param
+OpCapability Shader
+%1 = OpExtInstImport "GLSL.std.450"
+OpMemoryModel Logical GLSL450
+OpEntryPoint Fragment %main "main" %gl_FragCoord %out_color %frag_pos
+OpExecutionMode %main OriginUpperLeft
+OpSource GLSL 450
+OpSourceExtension "GL_ARB_separate_shader_objects"
+OpSourceExtension "GL_ARB_shading_language_420pack"
+OpSourceExtension "GL_GOOGLE_cpp_style_line_directive"
+OpSourceExtension "GL_GOOGLE_include_directive"
+OpName %main "main"
 
 
 
-               OpName %iResolution "iResolution"
-               OpName %push_constants "push_constants"
-               OpMemberName %push_constants 0 "u_Mouse"
-               OpMemberName %push_constants 1 "u_Date"
-               OpMemberName %push_constants 2 "u_Mouse_lr"
-               OpMemberName %push_constants 3 "u_Resolution"
-               OpMemberName %push_constants 4 "u_debugdraw"
-               OpMemberName %push_constants 5 "pCustom"
-               OpMemberName %push_constants 6 "u_Time"
-               OpMemberName %push_constants 7 "u_TimeDelta"
-               OpMemberName %push_constants 8 "u_Frame"
-               OpName %constants "constants"
-               OpName %iTime "iTime"
-               OpName %iTimeDelta "iTimeDelta"
-               OpName %iFrame "iFrame"
-               OpName %iMouse "iMouse"
-               OpName %iDate "iDate"
-               OpName %is_debugdraw "is_debugdraw"
-               OpName %is_pause "is_pause"
-               OpName %main_image_srgb "main_image_srgb"
-               OpName %uFragColor "uFragColor"
-               OpName %fragCoord_0 "fragCoord"
-               OpName %gl_FragCoord "gl_FragCoord"
-               OpName %param_20 "param"
-               OpName %param_21 "param"
-               OpName %out_color "out_color"
-               OpName %frag_pos "frag_pos"
-               OpName %iTextures "iTextures"
-               OpName %iChannels "iChannels"
-               OpName %iKeyboard "iKeyboard"
-               OpMemberDecorate %push_constants 0 Offset 0
-               OpMemberDecorate %push_constants 1 Offset 16
-               OpMemberDecorate %push_constants 2 Offset 32
-               OpMemberDecorate %push_constants 3 Offset 40
-               OpMemberDecorate %push_constants 4 Offset 48
-               OpMemberDecorate %push_constants 5 Offset 52
-               OpMemberDecorate %push_constants 6 Offset 56
-               OpMemberDecorate %push_constants 7 Offset 60
-               OpMemberDecorate %push_constants 8 Offset 64
-               OpDecorate %push_constants Block
-               OpDecorate %gl_FragCoord BuiltIn FragCoord
-               OpDecorate %out_color Location 0
-               OpDecorate %frag_pos Location 0
-               OpDecorate %iTextures DescriptorSet 0
-               OpDecorate %iTextures Binding 0
-               OpDecorate %iChannels DescriptorSet 0
-               OpDecorate %iChannels Binding 4
-               OpDecorate %iKeyboard DescriptorSet 0
-               OpDecorate %iKeyboard Binding 8
+OpName %iResolution "iResolution"
+OpName %push_constants "push_constants"
+OpMemberName %push_constants 0 "u_Mouse"
+OpMemberName %push_constants 1 "u_Date"
+OpMemberName %push_constants 2 "u_Mouse_lr"
+OpMemberName %push_constants 3 "u_Resolution"
+OpMemberName %push_constants 4 "u_debugdraw"
+OpMemberName %push_constants 5 "pCustom"
+OpMemberName %push_constants 6 "u_Time"
+OpMemberName %push_constants 7 "u_TimeDelta"
+OpMemberName %push_constants 8 "u_Frame"
+OpName %constants "constants"
+OpName %iTime "iTime"
+OpName %iTimeDelta "iTimeDelta"
+OpName %iFrame "iFrame"
+OpName %iMouse "iMouse"
+OpName %iDate "iDate"
+OpName %is_debugdraw "is_debugdraw"
+OpName %is_pause "is_pause"
+OpName %main_image_srgb "main_image_srgb"
+OpName %uFragColor "uFragColor"
+OpName %fragCoord_0 "fragCoord"
+OpName %gl_FragCoord "gl_FragCoord"
+OpName %param_20 "param"
+OpName %param_21 "param"
+OpName %out_color "out_color"
+OpName %frag_pos "frag_pos"
+OpName %iTextures "iTextures"
+OpName %iChannels "iChannels"
+OpName %iKeyboard "iKeyboard"
+OpMemberDecorate %push_constants 0 Offset 0
+OpMemberDecorate %push_constants 1 Offset 16
+OpMemberDecorate %push_constants 2 Offset 32
+OpMemberDecorate %push_constants 3 Offset 40
+OpMemberDecorate %push_constants 4 Offset 48
+OpMemberDecorate %push_constants 5 Offset 52
+OpMemberDecorate %push_constants 6 Offset 56
+OpMemberDecorate %push_constants 7 Offset 60
+OpMemberDecorate %push_constants 8 Offset 64
+OpDecorate %push_constants Block
+OpDecorate %gl_FragCoord BuiltIn FragCoord
+OpDecorate %out_color Location 0
+OpDecorate %frag_pos Location 0
+OpDecorate %iTextures DescriptorSet 0
+OpDecorate %iTextures Binding 0
+OpDecorate %iChannels DescriptorSet 0
+OpDecorate %iChannels Binding 4
+OpDecorate %iKeyboard DescriptorSet 0
+OpDecorate %iKeyboard Binding 8
 
 
-
-       %void = OpTypeVoid
-          %3 = OpTypeFunction %void
-      %float = OpTypeFloat 32
-    %v4float = OpTypeVector %float 4
+%void = OpTypeVoid
+%3 = OpTypeFunction %void
+%float = OpTypeFloat 32
+%v4float = OpTypeVector %float 4
 %_ptr_Function_v4float = OpTypePointer Function %v4float
-    %v2float = OpTypeVector %float 2
+%v2float = OpTypeVector %float 2
 %_ptr_Function_v2float = OpTypePointer Function %v2float
-         %11 = OpTypeFunction %void %_ptr_Function_v4float %_ptr_Function_v2float
-    %v3float = OpTypeVector %float 3
+%11 = OpTypeFunction %void %_ptr_Function_v4float %_ptr_Function_v2float
+%v3float = OpTypeVector %float 3
 %_ptr_Function_v3float = OpTypePointer Function %v3float
 %_ptr_Private_v3float = OpTypePointer Private %v3float
 %iResolution = OpVariable %_ptr_Private_v3float Private
-       %uint = OpTypeInt 32 0
-     %v2uint = OpTypeVector %uint 2
-        %int = OpTypeInt 32 1
+%uint = OpTypeInt 32 0
+%v2uint = OpTypeVector %uint 2
+%int = OpTypeInt 32 1
 %push_constants = OpTypeStruct %v4float %v4float %v2uint %v2float %uint %int %float %float %int
 %_ptr_PushConstant_push_constants = OpTypePointer PushConstant %push_constants
-  %constants = OpVariable %_ptr_PushConstant_push_constants PushConstant
-      %int_3 = OpConstant %int 3
+%constants = OpVariable %_ptr_PushConstant_push_constants PushConstant
+%int_3 = OpConstant %int 3
 %_ptr_PushConstant_v2float = OpTypePointer PushConstant %v2float
-    %float_1 = OpConstant %float 1
+%float_1 = OpConstant %float 1
 %_ptr_Private_float = OpTypePointer Private %float
-      %iTime = OpVariable %_ptr_Private_float Private
-      %int_6 = OpConstant %int 6
+%iTime = OpVariable %_ptr_Private_float Private
+%int_6 = OpConstant %int 6
 %_ptr_PushConstant_float = OpTypePointer PushConstant %float
- %iTimeDelta = OpVariable %_ptr_Private_float Private
-      %int_7 = OpConstant %int 7
+%iTimeDelta = OpVariable %_ptr_Private_float Private
+%int_7 = OpConstant %int 7
 %_ptr_Private_int = OpTypePointer Private %int
-     %iFrame = OpVariable %_ptr_Private_int Private
-      %int_8 = OpConstant %int 8
+%iFrame = OpVariable %_ptr_Private_int Private
+%int_8 = OpConstant %int 8
 %_ptr_PushConstant_int = OpTypePointer PushConstant %int
 %_ptr_Private_v4float = OpTypePointer Private %v4float
-     %iMouse = OpVariable %_ptr_Private_v4float Private
-      %int_0 = OpConstant %int 0
+%iMouse = OpVariable %_ptr_Private_v4float Private
+%int_0 = OpConstant %int 0
 %_ptr_PushConstant_v4float = OpTypePointer PushConstant %v4float
-      %iDate = OpVariable %_ptr_Private_v4float Private
-      %int_1 = OpConstant %int 1
-       %bool = OpTypeBool
+%iDate = OpVariable %_ptr_Private_v4float Private
+%int_1 = OpConstant %int 1
+%bool = OpTypeBool
 %_ptr_Private_bool = OpTypePointer Private %bool
 %is_debugdraw = OpVariable %_ptr_Private_bool Private
-      %int_4 = OpConstant %int 4
+%int_4 = OpConstant %int 4
 %_ptr_PushConstant_uint = OpTypePointer PushConstant %uint
-     %uint_0 = OpConstant %uint 0
-   %is_pause = OpVariable %_ptr_Private_bool Private
-      %int_5 = OpConstant %int 5
-     %int_10 = OpConstant %int 10
+%uint_0 = OpConstant %uint 0
+%is_pause = OpVariable %_ptr_Private_bool Private
+%int_5 = OpConstant %int 5
+%int_10 = OpConstant %int 10
 %main_image_srgb = OpVariable %_ptr_Private_bool Private
-    %int_100 = OpConstant %int 100
-  %float_0_5 = OpConstant %float 0.5
+%int_100 = OpConstant %int 100
+%float_0_5 = OpConstant %float 0.5
 %float_0_899999976 = OpConstant %float 0.899999976
-         %93 = OpConstantComposite %v4float %float_0_5 %float_0_899999976 %float_0_5 %float_1
-    %float_0 = OpConstant %float 0
-         %96 = OpConstantComposite %v4float %float_0 %float_0 %float_0 %float_0
+%93 = OpConstantComposite %v4float %float_0_5 %float_0_899999976 %float_0_5 %float_1
+%float_0 = OpConstant %float 0
+%96 = OpConstantComposite %v4float %float_0 %float_0 %float_0 %float_0
 %_ptr_Input_v4float = OpTypePointer Input %v4float
 %gl_FragCoord = OpVariable %_ptr_Input_v4float Input
-     %uint_1 = OpConstant %uint 1
+%uint_1 = OpConstant %uint 1
 %_ptr_Function_float = OpTypePointer Function %float
 %_ptr_Output_v4float = OpTypePointer Output %v4float
-  %out_color = OpVariable %_ptr_Output_v4float Output
+%out_color = OpVariable %_ptr_Output_v4float Output
 %float_0_693147004 = OpConstant %float 0.693147004
 %float_3_25889111 = OpConstant %float 3.25889111
 %_ptr_Output_float = OpTypePointer Output %float
-     %uint_2 = OpConstant %uint 2
+%uint_2 = OpConstant %uint 2
 %_ptr_Input_v2float = OpTypePointer Input %v2float
-   %frag_pos = OpVariable %_ptr_Input_v2float Input
-        %143 = OpTypeImage %float 2D 0 0 0 1 Unknown
-        %144 = OpTypeSampledImage %143
-     %uint_4 = OpConstant %uint 4
+%frag_pos = OpVariable %_ptr_Input_v2float Input
+%143 = OpTypeImage %float 2D 0 0 0 1 Unknown
+%144 = OpTypeSampledImage %143
+%uint_4 = OpConstant %uint 4
 %_arr_144_uint_4 = OpTypeArray %144 %uint_4
 %_ptr_UniformConstant__arr_144_uint_4 = OpTypePointer UniformConstant %_arr_144_uint_4
-  %iTextures = OpVariable %_ptr_UniformConstant__arr_144_uint_4 UniformConstant
-  %iChannels = OpVariable %_ptr_UniformConstant__arr_144_uint_4 UniformConstant
+%iTextures = OpVariable %_ptr_UniformConstant__arr_144_uint_4 UniformConstant
+%iChannels = OpVariable %_ptr_UniformConstant__arr_144_uint_4 UniformConstant
 %_ptr_UniformConstant_144 = OpTypePointer UniformConstant %144
-  %iKeyboard = OpVariable %_ptr_UniformConstant_144 UniformConstant
+%iKeyboard = OpVariable %_ptr_UniformConstant_144 UniformConstant
 
-; defines
 
-  
-       %main = OpFunction %void None %3
-          %5 = OpLabel
- %uFragColor = OpVariable %_ptr_Function_v4float Function
+
+%main = OpFunction %void None %3
+%5 = OpLabel
+%uFragColor = OpVariable %_ptr_Function_v4float Function
 %fragCoord_0 = OpVariable %_ptr_Function_v2float Function
-      %param_20 = OpVariable %_ptr_Function_v4float Function
-    %param_21 = OpVariable %_ptr_Function_v2float Function
-         %27 = OpAccessChain %_ptr_PushConstant_v2float %constants %int_3
-         %28 = OpLoad %v2float %27
-         %30 = OpCompositeExtract %float %28 0
-         %31 = OpCompositeExtract %float %28 1
-         %32 = OpCompositeConstruct %v3float %30 %31 %float_1
-               OpStore %iResolution %32
-         %37 = OpAccessChain %_ptr_PushConstant_float %constants %int_6
-         %38 = OpLoad %float %37
-               OpStore %iTime %38
-         %41 = OpAccessChain %_ptr_PushConstant_float %constants %int_7
-         %42 = OpLoad %float %41
-               OpStore %iTimeDelta %42
-         %47 = OpAccessChain %_ptr_PushConstant_int %constants %int_8
-         %48 = OpLoad %int %47
-               OpStore %iFrame %48
-         %53 = OpAccessChain %_ptr_PushConstant_v4float %constants %int_0
-         %54 = OpLoad %v4float %53
-               OpStore %iMouse %54
-         %57 = OpAccessChain %_ptr_PushConstant_v4float %constants %int_1
-         %58 = OpLoad %v4float %57
-               OpStore %iDate %58
-         %64 = OpAccessChain %_ptr_PushConstant_uint %constants %int_4
-         %65 = OpLoad %uint %64
-         %67 = OpINotEqual %bool %65 %uint_0
-               OpStore %is_debugdraw %67
-         %70 = OpAccessChain %_ptr_PushConstant_int %constants %int_5
-         %71 = OpLoad %int %70
-         %72 = OpAccessChain %_ptr_PushConstant_int %constants %int_5
-         %73 = OpLoad %int %72
-         %75 = OpSDiv %int %73 %int_10
-         %76 = OpIMul %int %75 %int_10
-         %77 = OpISub %int %71 %76
-         %78 = OpINotEqual %bool %77 %uint_0
-               OpStore %is_pause %78
-         %80 = OpAccessChain %_ptr_PushConstant_int %constants %int_5
-         %81 = OpLoad %int %80
-         %82 = OpSDiv %int %81 %int_10
-         %83 = OpIMul %int %82 %int_10
-         %84 = OpAccessChain %_ptr_PushConstant_int %constants %int_5
-         %85 = OpLoad %int %84
-         %87 = OpSDiv %int %85 %int_100
-         %88 = OpIMul %int %87 %int_100
-         %89 = OpISub %int %83 %88
-         %90 = OpINotEqual %bool %89 %uint_0
-               OpStore %main_image_srgb %90
-               OpStore %uFragColor %96
-        %100 = OpLoad %v4float %gl_FragCoord
-        %101 = OpVectorShuffle %v2float %100 %100 0 1
-               OpStore %fragCoord_0 %101
-        %103 = OpAccessChain %_ptr_Private_float %iResolution %uint_1
-        %104 = OpLoad %float %103
-        %106 = OpAccessChain %_ptr_Function_float %fragCoord_0 %uint_1
-        %107 = OpLoad %float %106
-        %108 = OpFSub %float %104 %107
-        %109 = OpAccessChain %_ptr_Function_float %fragCoord_0 %uint_1
-               OpStore %109 %108
-        %112 = OpLoad %v2float %fragCoord_0
-               OpStore %param_21 %112
-        %113 = OpFunctionCall %v4float %mainImage_v2float_ %param_21
-               OpStore %uFragColor %113
-        %117 = OpLoad %v4float %uFragColor
-               OpStore %out_color %117
-        %118 = OpLoad %bool %main_image_srgb
-               OpSelectionMerge %120 None
-               OpBranchConditional %118 %119 %120
-        %119 = OpLabel
-        %121 = OpLoad %v4float %out_color
-        %122 = OpVectorShuffle %v3float %121 %121 0 1 2
-        %123 = OpExtInst %v3float %1 Exp2 %122
-        %124 = OpCompositeConstruct %v3float %float_1 %float_1 %float_1
-        %125 = OpFSub %v3float %123 %124
-        %126 = OpLoad %v4float %out_color
-        %127 = OpVectorShuffle %v3float %126 %126 0 1 2
-        %129 = OpVectorTimesScalar %v3float %127 %float_0_693147004
-        %130 = OpFSub %v3float %125 %129
-        %132 = OpVectorTimesScalar %v3float %130 %float_3_25889111
-        %134 = OpAccessChain %_ptr_Output_float %out_color %uint_0
-        %135 = OpCompositeExtract %float %132 0
-               OpStore %134 %135
-        %136 = OpAccessChain %_ptr_Output_float %out_color %uint_1
-        %137 = OpCompositeExtract %float %132 1
-               OpStore %136 %137
-        %139 = OpAccessChain %_ptr_Output_float %out_color %uint_2
-        %140 = OpCompositeExtract %float %132 2
-               OpStore %139 %140
-               OpBranch %120
-        %120 = OpLabel
-               OpReturn
-               OpFunctionEnd
+%param_20 = OpVariable %_ptr_Function_v4float Function
+%param_21 = OpVariable %_ptr_Function_v2float Function
+%27 = OpAccessChain %_ptr_PushConstant_v2float %constants %int_3
+%28 = OpLoad %v2float %27
+%30 = OpCompositeExtract %float %28 0
+%31 = OpCompositeExtract %float %28 1
+%32 = OpCompositeConstruct %v3float %30 %31 %float_1
+OpStore %iResolution %32
+%37 = OpAccessChain %_ptr_PushConstant_float %constants %int_6
+%38 = OpLoad %float %37
+OpStore %iTime %38
+%41 = OpAccessChain %_ptr_PushConstant_float %constants %int_7
+%42 = OpLoad %float %41
+OpStore %iTimeDelta %42
+%47 = OpAccessChain %_ptr_PushConstant_int %constants %int_8
+%48 = OpLoad %int %47
+OpStore %iFrame %48
+%53 = OpAccessChain %_ptr_PushConstant_v4float %constants %int_0
+%54 = OpLoad %v4float %53
+OpStore %iMouse %54
+%57 = OpAccessChain %_ptr_PushConstant_v4float %constants %int_1
+%58 = OpLoad %v4float %57
+OpStore %iDate %58
+%64 = OpAccessChain %_ptr_PushConstant_uint %constants %int_4
+%65 = OpLoad %uint %64
+%67 = OpINotEqual %bool %65 %uint_0
+OpStore %is_debugdraw %67
+%70 = OpAccessChain %_ptr_PushConstant_int %constants %int_5
+%71 = OpLoad %int %70
+%72 = OpAccessChain %_ptr_PushConstant_int %constants %int_5
+%73 = OpLoad %int %72
+%75 = OpSDiv %int %73 %int_10
+%76 = OpIMul %int %75 %int_10
+%77 = OpISub %int %71 %76
+%78 = OpINotEqual %bool %77 %uint_0
+OpStore %is_pause %78
+%80 = OpAccessChain %_ptr_PushConstant_int %constants %int_5
+%81 = OpLoad %int %80
+%82 = OpSDiv %int %81 %int_10
+%83 = OpIMul %int %82 %int_10
+%84 = OpAccessChain %_ptr_PushConstant_int %constants %int_5
+%85 = OpLoad %int %84
+%87 = OpSDiv %int %85 %int_100
+%88 = OpIMul %int %87 %int_100
+%89 = OpISub %int %83 %88
+%90 = OpINotEqual %bool %89 %uint_0
+OpStore %main_image_srgb %90
+OpStore %uFragColor %96
+%100 = OpLoad %v4float %gl_FragCoord
+%101 = OpVectorShuffle %v2float %100 %100 0 1
+ OpStore %fragCoord_0 %101
+%103 = OpAccessChain %_ptr_Private_float %iResolution %uint_1
+%104 = OpLoad %float %103
+%106 = OpAccessChain %_ptr_Function_float %fragCoord_0 %uint_1
+%107 = OpLoad %float %106
+%108 = OpFSub %float %104 %107
+%109 = OpAccessChain %_ptr_Function_float %fragCoord_0 %uint_1
+OpStore %109 %108
+%112 = OpLoad %v2float %fragCoord_0
+OpStore %param_21 %112
+%113 = OpFunctionCall %v4float %mainImage_v2float_ %param_21
+OpStore %uFragColor %113
+%117 = OpLoad %v4float %uFragColor
+OpStore %out_color %117
+%118 = OpLoad %bool %main_image_srgb
+OpSelectionMerge %120 None
+OpBranchConditional %118 %119 %120
+%119 = OpLabel
+%121 = OpLoad %v4float %out_color
+%122 = OpVectorShuffle %v3float %121 %121 0 1 2
+%123 = OpExtInst %v3float %1 Exp2 %122
+%124 = OpCompositeConstruct %v3float %float_1 %float_1 %float_1
+%125 = OpFSub %v3float %123 %124
+%126 = OpLoad %v4float %out_color
+%127 = OpVectorShuffle %v3float %126 %126 0 1 2
+%129 = OpVectorTimesScalar %v3float %127 %float_0_693147004
+%130 = OpFSub %v3float %125 %129
+%132 = OpVectorTimesScalar %v3float %130 %float_3_25889111
+%134 = OpAccessChain %_ptr_Output_float %out_color %uint_0
+%135 = OpCompositeExtract %float %132 0
+OpStore %134 %135
+%136 = OpAccessChain %_ptr_Output_float %out_color %uint_1
+%137 = OpCompositeExtract %float %132 1
+OpStore %136 %137
+%139 = OpAccessChain %_ptr_Output_float %out_color %uint_2
+%140 = OpCompositeExtract %float %132 2
+OpStore %139 %140
+OpBranch %120
+%120 = OpLabel
+OpReturn
+OpFunctionEnd
 
-; 函数翻译，从200开始
-;%mainImage_vf4_vf2_ = OpFunction %void None %11
-;  %fragColor = OpFunctionParameter %_ptr_Function_v4float
-;  %fragCoord = OpFunctionParameter %_ptr_Function_v2float
-;         %15 = OpLabel
-;               OpStore %fragColor %93
-;               OpReturn
-;               OpFunctionEnd

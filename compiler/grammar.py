@@ -24,6 +24,7 @@ class Grammar(object):
         self.defines = []
         self.func_dict = {}
         self.id_dict = {}
+        self.oplabels = []
         self.func_opvariable_index = 0
         # build_in
         self.build_in_vars = {'gl_Position': 'v4float', 'gl_FragCoord': 'v4float', 'iResolution': 'v3float', 
@@ -90,8 +91,14 @@ class Grammar(object):
         self.spirv_list_funcs.append(spirv + '\n')
     
     def _add_spirv_func_variable(self, spirv):
-        self.spirv_list_funcs.insert(self.func_opvariable_index, spirv)
+        self.spirv_list_funcs.insert(self.func_opvariable_index, spirv + '\n')
         self.func_opvariable_index += 1
+    
+    def _add_spirv_oplabel(self):
+        oplabel_tmp = self._get_temp()
+        self._add_spirv_list_func(f'{oplabel_tmp} = OpLabel')
+        self.oplabels.append(oplabel_tmp)
+        return oplabel_tmp
 
     def _get_token(self):
         if len(self.token_stack) > 0:
@@ -744,7 +751,7 @@ class Grammar(object):
         # todo: 未考虑参数名重复的情况
         for key in para_tlb.keys():
             self._add_spirv_list_func(f'%{key} = OpFunctionParameter %_ptr_Function_{para_tlb[key]}')
-        self._add_spirv_list_func(f'{self._get_temp()} = OpLabel')
+        self._add_spirv_oplabel()
         self.func_opvariable_index = len(self.spirv_list_funcs)
         self.token = self._get_token()  # {
         self.token = self._get_token()
@@ -814,7 +821,7 @@ class Grammar(object):
         # todo: 未考虑参数名重复的情况
         for key in para_tlb.keys():
             self._add_spirv_list_func(f'%{key} = OpFunctionParameter %_ptr_Function_{para_tlb[key]}')
-        self._add_spirv_list_func(f'{self._get_temp()} = OpLabel')
+        self._add_spirv_oplabel()
         self.func_opvariable_index = len(self.spirv_list_funcs)
         self.token = self._get_token()  # {
         self.token = self._get_token()
@@ -878,33 +885,59 @@ class Grammar(object):
     def _condition_statement(self):
         self.token = self._get_token()  # (
         self.token = self._get_token()
-        self._condition()  # )
+        bool_tmp = self._condition()  # )
+        oplabel0 = self._get_temp()
+        oplabel1 = self._get_temp()
+        oplabel2 = self._get_temp()
+        self._add_spirv_list_func(f'OpBranchConditional {bool_tmp} {oplabel0} {oplabel1}')
         self.token = self._get_token()
+        self._add_spirv_list_func(f'{oplabel0} = OpLabel')
         self._statement()
+        self._add_spirv_list_func(f'OpBranch {oplabel2}')
         if self.token.token_sym == "ELSETK":
             self.token = self._get_token()
+            self._add_spirv_list_func(f'{oplabel1} = OpLabel')
             self._statement()
+            self._add_spirv_list_func(f'OpBranch {oplabel2}')
+        else:
+            self._add_spirv_list_func(f'{oplabel1} = OpLabel')
+        self._add_spirv_list_func(f'{oplabel2} = OpLabel')
+        
 
     # <条件> ::= <条件项>{<条件运算符><条件项>}
     def _condition(self):
-        self._condition_term()  # 条件运算符 or )
+        tmp, _ = self._condition_term()  # 条件运算符 or )
         while self.token.token_sym == "ANDTK" or self.token.token_sym == "ORTK":
             condition_sym = self.token.token_sym
+            tmp0 = tmp
             self.token = self._get_token()
-            self._condition_term()
+            tmp1, _ = self._condition_term()
+            tmp = self._get_temp()
+            if condition_sym == 'ANDTK':
+                self._add_spirv_list_func(f'{tmp} = OpLogicalAnd %bool {tmp0} {tmp1}')
+            else:
+                self._add_spirv_list_func(f'{tmp} = OpLogicalOr %bool {tmp0} {tmp1}')
+        return tmp
 
     # <条件项> ::= <表示式><关系运算符><表达式> | '('<条件>')'
     def _condition_term(self):
+        tmp = ''
         if self.token.token_sym == "LPARENT":
             # example中不会出现
             self.token = self._get_token()
             self._condition()  # )
             self.token = self._get_token()
         else:
-            self._expr()  # 关系运算符
+            tmp0, _ = self._expr()  # 关系运算符
             relation_sym = self.token.token_sym
             self.token = self._get_token()
-            self._expr()
+            tmp1, _ = self._expr()
+            tmp = self._get_temp()
+            if relation_sym == "LEQ":
+                self._add_spirv_list_func(f'{tmp} = OpFOrdLessThanEqual %bool {tmp0} {tmp1}')
+            elif relation_sym == "GEQ":
+                self._add_spirv_list_func(f'{tmp} = OpFOrdGreaterThanEqual %bool {tmp0} {tmp1}')
+        return (tmp, f'%bool')
 
     # <有返回值函数调用语句> ::= <标识符>'('<值参数表>')'
     def _func_call_with_ret(self):
@@ -1198,11 +1231,11 @@ class Grammar(object):
         self.token = self._get_token()
 
     def to_spvasm(self, file):
-        asm = self.build_in_templates[0:22]
+        asm = self.build_in_templates[0:17]
         asm.extend(self.spirv_list_opnames)
-        asm.extend(self.build_in_templates[22:151])
+        asm.extend(self.build_in_templates[17:145])
         asm.extend(self.spirv_list_defines)
-        asm.extend(self.build_in_templates[151:])
+        asm.extend(self.build_in_templates[145:])
         asm.extend(self.spirv_list_funcs)
         with open('main.frag.esl.spvasm', mode='w', encoding='utf-8') as f:
             f.writelines(asm)
